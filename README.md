@@ -1,107 +1,96 @@
 # Enterprise Agent · 企业 AI 工作台
 
-面向面试展示的企业 AI 应用项目。保留 Vue 3 + TypeScript + FastAPI 的业务实现，并提供无需安装、无需登录的离线测试数据演示。
+面向面试展示的完整企业 AI 应用。公开版本直接运行原项目的 **Vue 3 + TypeScript + Element Plus + ECharts 界面、FastAPI 接口和 MySQL 业务服务**，保留原导航、表格、图表、导入导出、权限及交互流程。企业名称、人员、商品、报表、图片和附件均替换为虚构测试资料。
 
-![经营总览预览](demo/preview.png)
+![原版业务界面与测试数据](demo/preview.png)
 
-## 克隆后直接查看
+## 克隆并启动完整应用
+
+安装 Docker Desktop（含 Docker Compose 2.24+），启动 Docker 后执行：
 
 ```bash
 git clone https://github.com/yangXYH/enterprise-agent-demo.git
 cd enterprise-agent-demo
+docker compose up --build
 ```
 
-**双击根目录 `index.html` 即可打开。** Windows 也可双击 `start-demo.cmd`。请保留完整目录结构。
+首次启动会安装依赖、编译原 Vue 项目、创建独立 MySQL 演示库并生成测试资料。看到后端启动完成后，打开 <http://127.0.0.1:4173>。
 
-此入口不需要 Node.js、Python、数据库、API Key 或网络连接。请使用现代 Chrome、Edge、Firefox 或 Safari。
+默认账号：**`demo_admin` / `Demo@2026`**。还可使用 `demo_boss`、`demo_hr`、`demo_operator`、`demo_designer`、`demo_supply`，密码相同，用于演示原角色权限和字段脱敏。演示账户仅供本机测试。
 
-如果希望通过 localhost 查看，安装 Node.js 后运行：
+数据库、上传资料和生成附件保存在 Docker 命名卷中，重启保留修改。停止服务使用 `docker compose down`。启动程序只允许专用的 `enterprise_agent_demo` 或其测试后缀数据库，遇到没有演示归属标记的已有业务库会拒绝初始化。
 
-```bash
-node tools/serve_demo.mjs
-```
+Windows 可以双击 `start-demo.cmd`：已有 Python 虚拟环境时启动本机完整应用，否则优先使用 Docker；没有 Docker 时需自行准备 Python 3.12+ 和 MySQL 8。根目录 `index.html` 仅提供启动说明。
 
-打开 <http://127.0.0.1:4173>。该预览服务只监听本机，并只提供演示页面与静态资源。
+## 保留的业务模块
 
-## 可以演示什么
-
-| 模块 | 可操作内容 |
+| 原模块 | 可展示的原功能与测试资料 |
 | --- | --- |
-| 经营总览 | 切换月份，查看收入、项目净利、趋势与渠道占比 |
-| 店铺报表 | 切换期间和渠道，搜索店铺，核对成本、费用与净利 |
-| 库存预警 | 搜索 SKU，筛选低库存，核对安全库存和在途数量 |
-| 人事管理 | 搜索测试员工，按部门筛选，查看虚构花名册 |
-| 客服看板 | 查看测试客服接待量、解决率、响应时间和满意度 |
-| AI 项目看板 | 添加测试项目，推进进度，重置本地演示记录 |
-| 数据问答 | 询问测试营收、店铺排行、库存缺口与人员统计 |
+| 公司首页、数据洞察、AI 项目看板 | 原工作台导航、工作区页签、经营摘要、项目进度、日报与风险 |
+| 经营数据分析、店铺报表 | 180 天商品日明细、品牌/商品筛选、同比环比、多维图表、9 家店铺及 28 项费用口径、报表导出 |
+| AI 经营问答、知识库 | 原数据查询、检索、会话与模型接入逻辑；预置测试知识文件 |
+| 库存分析决策与监控 | 96 个 SKU、多仓快照、风险、调拨补货建议、采购与经营预测；使用原计算服务生成结果 |
+| 供应链、SKU 退货与质检 | 采购、销售、ERP 库存、退货导入与聚合、生成的测试 PDF 报告 |
+| 人力资源 | 80 份测试员工档案、合同、考勤明细、离职、招聘、简历历史、人员编辑及导入导出 |
+| 设计部 | 原资料分类、图片、提示词、编辑、回收站与恢复；图片为程序生成的测试图形 |
+| 客服部 | 原客服看板、店铺/周次维度、筛选、Excel 导入及恢复测试快照 |
+| 系统管理、积分系统 | 原账号/页面/子页权限管理、字段脱敏、规则、积分流水与排行 |
 
-各数据页面支持 CSV 导出，支持明暗主题与移动端布局。项目修改仅保存在当前浏览器；导出的文件只包含当前筛选下的测试记录。
+**AI 调用和 ERP 在线同步保留原实现，需要你自己的外部服务配置。** 默认演示会加载完整测试业务数据，但不会用本地固定回答替代真实大模型结果；新生成的 AI 回答、简历分析等能力在配置模型后使用。ERP 自动同步默认关闭，已有测试库存、销售与采购记录仍可查询。
 
-**离线问答使用本地规则计算，不调用大模型。** 完整后端源码保留模型接入、经营查询、会话持久化和知识检索等实现；离线入口用于展示交互与数据口径，不能替代真实 AI 服务的效果评估。
+## 本机运行（已提供原 Vue 预编译产物，无需 Node）
 
-## 测试数据
-
-所有企业、姓名、店铺、商品、金额和联系方式均为虚构测试内容。数据由固定公式生成，与任何真实员工、交易或公司经营结果无关。
-
-- 4 家测试店铺、9 个月、36 条经营明细。
-- 24 位测试员工、4 个部门；联系方式为不可拨打的测试标识。
-- 18 个测试 SKU、5 位测试客服、4 个初始演示项目。
-- 项目净利 = 营业收入 − 商品成本 − 已录费用；未计人工与税费。
-
-重新生成数据（仅依赖 Python 标准库）：
-
-```bash
-python tools/generate_demo_data.py
-python -m unittest discover -s tests -p demo_data_test.py
-python tools/check_public_demo.py
-```
-
-## 源码结构
-
-```text
-index.html                 克隆后直接打开的演示入口
-demo/                      离线页面、图表、测试数据与预览图
-frontend/src/              Vue 3 + TypeScript 原业务界面
-main.py / *_routes.py      FastAPI 接口与业务路由
-utils/                     权限、经营分析、问答、库存、人事等服务
-database/                  数据库结构与迁移
-tools/                     测试数据生成、导入导出和检查工具
-tests/                     业务测试与演示数据校验
-```
-
-## 运行完整开发版本
-
-完整 Vue + FastAPI 版本需要独立 MySQL 数据库、Python 3.12+、Node.js 22.12+，以及按实际功能选择的外部服务配置。此模式需要开发环境，不属于双击即可查看的离线入口。
+需要 Python 3.12+、可连接的独立 MySQL 8：
 
 ```bash
 python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS / Linux:
-# source .venv/bin/activate
-pip install -r requirements.txt
+# Windows
+.venv\Scripts\python -m pip install -r requirements.txt
+copy .env.demo.example .env.demo
 ```
 
-复制 `.env.test.example` 为 `.env.test`，填入独立测试数据库的账号与密码；按 `database/rebuild_from_local_schema.sql` 准备空测试库。该脚本会重建其命名的数据库，请只对可丢弃的本地测试库执行。环境变量或数据库名称需要与初始化脚本保持一致。
+在 `.env.demo` 填写本机 MySQL 的测试账号和密码，然后：
 
 ```bash
-# Windows PowerShell:
-$env:APP_ENV="test"
-python -m uvicorn main:app --host 127.0.0.1 --port 8000
+.venv\Scripts\python -B tools/start_full_demo.py
 ```
 
-在另一个终端启动 Vue 界面：
+macOS / Linux 对应使用 `.venv/bin/python` 和 `cp .env.demo.example .env.demo`。MySQL 账号需具备专用演示库的建库建表权限；如提前创建了空库，授予该库权限即可。启动后自动建表、灌入数据与创建演示账号，重复启动保留修改。
+
+可在未提交的 `.env.demo` 中配置原模型参数，例如 `OPERATING_AI_KEY`、`OPERATING_AI_MODEL`、`OPERATING_AI_BASE_URL`，或代码支持的 `LLM_API_KEY`、`LLM_BASE_URL`、`LLM_MODEL`。请根据实际服务选择参数；没有随仓库提供真实密钥。
+
+## 前端开发与校验
+
+开发前端需要 Node.js 22.12+：
 
 ```bash
 cd frontend
 npm ci
-npm run dev
+npm run build
+cd ..
+python tools/package_full_frontend.py
 ```
 
-Vue 开发界面位于 <http://localhost:5717>，API 位于 <http://127.0.0.1:8000>。完整后端需要自行准备演示账号和模块测试数据；本仓库没有生产账号或生产数据。模型、ERP 等集成默认不提供真实凭证。
+`demo/frontend/` 是原 Vue 源码的编译结果，启动器直接提供该界面；`demo/frontend-manifest.json` 记录源码与产物哈希，测试会检查二者一致。Docker 启动会重新编译原源码。
 
-## 开源处理
+```bash
+python -m unittest discover -s tests -p demo_data_test.py
+python tools/check_public_demo.py
+# 服务已启动后，验证真实接口、数据库保存及导出
+python tools/smoke_full_demo.py
+```
 
-本演示仓库使用独立的新 Git 历史。原始员工文件、经营资料、真实数据库、本地环境配置、公司图片、运行产物及包含业务金额的专用导入脚本不在公开版本内。
+## 项目结构与公开处理
 
-参见 [数据说明](docs/DEMO_CLEANUP.md)、[验证记录](docs/VALIDATION.md) 与 [数据库配置](DATABASE_ENVIRONMENT.md)。项目采用 MIT 许可证。
+```text
+frontend/src/              原 Vue 业务组件
+main.py / *_routes.py      原 FastAPI 接口
+utils/                     原业务、查询、预测、权限、知识检索服务
+database/                  原表结构与迁移
+tools/full_demo_*.py        独立演示库初始化与全模块测试数据
+demo/frontend/             原 Vue 构建产物
+compose.yml / Dockerfile   完整应用及独立 MySQL 启动
+tests/                     原业务测试与演示验证
+```
+
+原始员工花名册、考勤表、真实经营资料、数据库、公司图片、环境配置、日志及旧 Git 历史未进入公开版本。运行时生成的测试工作簿、PDF、图片和数据库文件也不提交。详见 [数据处理](docs/DEMO_CLEANUP.md) 与 [验证记录](docs/VALIDATION.md)。采用 MIT 许可证。

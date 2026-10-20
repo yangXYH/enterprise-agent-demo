@@ -57,6 +57,7 @@ uvicorn.out
 .env.*
 !.env.example
 !.env.test.example
+!.env.demo.example
 !.env.production.example
 .env.local
 .env.production

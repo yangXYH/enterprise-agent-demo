@@ -1,0 +1,43 @@
+name: enterprise-agent-demo
+services:
+  mysql:
+    image: mysql:8.0.45
+    environment:
+      MYSQL_DATABASE: enterprise_agent_demo
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo_local_only
+      MYSQL_ROOT_PASSWORD: demo_root_local_only
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - demo_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -udemo -p$$MYSQL_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    build: .
+    env_file:
+      - path: .env.demo
+        required: false
+    ports:
+      - "127.0.0.1:4173:8000"
+    environment:
+      APP_ENV: demo
+      DEMO_HOST: 0.0.0.0
+      DEMO_PORT: 8000
+      DEMO_DB_HOST: mysql
+      DEMO_DB_NAME: enterprise_agent_demo
+      DEMO_DB_USER: demo
+      DEMO_DB_PASSWORD: demo_local_only
+      JUSHUITAN_SYNC_ENABLED: "false"
+    volumes:
+      - demo_uploads:/app/uploads
+      - demo_data:/app/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+volumes:
+  demo_mysql:
+  demo_uploads:
+  demo_data:

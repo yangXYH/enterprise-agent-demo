@@ -110,9 +110,10 @@ interface WeekComparison {
 
 type WorkbookField = Exclude<keyof ServiceRow, 'agentRole' | 'reportWeekKey' | 'reportWeekLabel'>
 
-const DEFAULT_REPORT_NAME = '尚未导入报表'
-const STORAGE_ROWS_KEY = 'cs-demo-dashboard-rows-v1'
-const STORAGE_META_KEY = 'cs-demo-dashboard-meta-v1'
+const DEFAULT_REPORT_URL = '/static/demo-fixtures/customer-service-demo.xlsx'
+const DEFAULT_REPORT_NAME = '测试客服报表.xlsx'
+const STORAGE_ROWS_KEY = 'cs-full-demo-dashboard-rows-v1'
+const STORAGE_META_KEY = 'cs-full-demo-dashboard-meta-v1'
 const SHARED_API = '/cs/dashboard'
 
 const rows = ref<ServiceRow[]>([])
@@ -126,8 +127,16 @@ const selectedRoles = ref<string[]>([])
 const selectedWeeks = ref<string[]>([])
 const minQuestions = ref(100)
 
-// 演示版不内置真实员工姓名和客服账号映射。
+// 测试数据对应的客服账号映射；保留原报表解析与角色识别流程。
 const ACCOUNT_NAME_MAP: Record<string, string> = {}
+const addAccountMapping = (name: string, accounts: string[]) => {
+  accounts.forEach((account) => { ACCOUNT_NAME_MAP[account] = name })
+}
+addAccountMapping('测试客服01', ['test-agent-01-shop-01', 'test-agent-01-shop-02', 'test-agent-01-shop-03', 'test-agent-01-shop-04', 'test-agent-01-shop-05', 'test-agent-01-shop-06'])
+addAccountMapping('测试客服02', ['test-agent-02-shop-01', 'test-agent-02-shop-02', 'test-agent-02-shop-03', 'test-agent-02-shop-04', 'test-agent-02-shop-05', 'test-agent-02-shop-06'])
+addAccountMapping('测试客服03', ['test-agent-03-shop-01', 'test-agent-03-shop-02', 'test-agent-03-shop-03', 'test-agent-03-shop-04', 'test-agent-03-shop-05', 'test-agent-03-shop-06'])
+addAccountMapping('测试客服04', ['test-agent-04-shop-01', 'test-agent-04-shop-02', 'test-agent-04-shop-03', 'test-agent-04-shop-04', 'test-agent-04-shop-05', 'test-agent-04-shop-06'])
+addAccountMapping('测试客服05', ['test-agent-05-shop-01', 'test-agent-05-shop-02', 'test-agent-05-shop-03', 'test-agent-05-shop-04', 'test-agent-05-shop-05', 'test-agent-05-shop-06'])
 
 const columnMap: Record<WorkbookField, string[]> = {
   store: ['店铺'],
@@ -571,16 +580,20 @@ const restoreRows = () => {
   }
 }
 
-const resetLocalReport = () => {
-  rows.value = []
-  sourceName.value = DEFAULT_REPORT_NAME
-  loaded.value = true
-  selectedStores.value = []
-  selectedAgents.value = []
-  selectedRoles.value = []
-  selectedWeeks.value = []
-  localStorage.removeItem(STORAGE_ROWS_KEY)
-  localStorage.removeItem(STORAGE_META_KEY)
+const loadDefaultReport = async () => {
+  loading.value = true
+  try {
+    rows.value = []
+    const response = await fetch(DEFAULT_REPORT_URL, { cache: 'no-store' })
+    if (!response.ok) throw new Error('默认报表读取失败')
+    await loadArrayBuffer(await response.arrayBuffer(), DEFAULT_REPORT_NAME)
+  } catch (error) {
+    rows.value = []
+    loaded.value = true
+    ElMessage.error((error as Error).message || '默认报表读取失败')
+  } finally {
+    loading.value = false
+  }
 }
 
 const matchesDimensionFilters = (row: ServiceRow) => {
@@ -1122,8 +1135,8 @@ onMounted(async () => {
     void pushShared()
     return
   }
-  // 演示版没有内置公司报表，等待用户自行导入模拟数据。
-  resetLocalReport()
+  // 本地也没有数据，加载内置默认报表（同时持久化到服务器共享）
+  void loadDefaultReport()
 })
 </script>
 
@@ -1152,7 +1165,7 @@ onMounted(async () => {
           directory
           @change="handleFolderInputChange"
         />
-        <el-button :icon="Refresh" plain @click="resetLocalReport">清空本地数据</el-button>
+        <el-button :icon="Refresh" plain @click="loadDefaultReport">恢复快照</el-button>
       </div>
     </header>
 

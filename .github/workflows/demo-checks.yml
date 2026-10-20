@@ -1,10 +1,21 @@
-name: Public demo checks
+name: Full application demo checks
 on: [push, pull_request]
 permissions:
   contents: read
 jobs:
   demo:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.45
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: enterprise_agent_demo
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot --silent"
+          --health-interval=5s --health-timeout=5s --health-retries=30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -13,9 +24,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -p demo_data_test.py
       - run: python tools/check_public_demo.py
-      - run: node --check demo/app.js
-      - run: node --check tools/serve_demo.mjs
-      - run: python tools/generate_demo_data.py
-      - run: git diff --exit-code -- demo/data.js data/shop_report.json
+      - run: npm ci && npm run build
+        working-directory: frontend
+      - name: Start original application with synthetic database
+        run: |
+          python -B tools/start_full_demo.py > /tmp/full-demo.log 2>&1 &
+          for attempt in $(seq 1 90); do
+            if curl --fail --silent http://127.0.0.1:4173/api/demo/status; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/full-demo.log
+          exit 1
+      - run: python tools/smoke_full_demo.py
+      - name: Application log on failure
+        if: failure()
+        run: cat /tmp/full-demo.log 2>/dev/null || true

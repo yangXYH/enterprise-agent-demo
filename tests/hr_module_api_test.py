@@ -3,8 +3,8 @@
 运行（项目根目录，venv）：
     venv\\Scripts\\python -m unittest tests.hr_module_api_test -v
 
-依赖：本机 MySQL（enterprise_agent_db）已运行且花名册数据已灌入
-（tools/seed_hr_roster.py）。
+依赖：独立 MySQL 演示库已运行且测试花名册已灌入
+（tools/full_demo_seed.py）。
 """
 import sys
 import unittest
@@ -35,9 +35,9 @@ class HrModuleApiTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.client = TestClient(main.app)
-        cls.hr_cookie = _make_session_cookie("liwenhong")       # role=hr
-        cls.designer_cookie = _make_session_cookie("wangzhimei")  # role=designer
-        cls.boss_cookie = _make_session_cookie("chenglin")        # role=boss
+        cls.hr_cookie = _make_session_cookie("demo_hr")       # role=hr
+        cls.designer_cookie = _make_session_cookie("demo_designer")  # role=designer
+        cls.boss_cookie = _make_session_cookie("demo_boss")        # role=boss
 
     # ── 认证 ──────────────────────────────────────────────────────────────
     def test_roster_requires_auth(self) -> None:

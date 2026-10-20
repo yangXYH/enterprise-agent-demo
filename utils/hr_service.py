@@ -23,7 +23,9 @@ import logging
 import re
 from decimal import Decimal
 from pathlib import Path
+from threading import Lock
 from typing import Any, Optional
+from weakref import WeakSet
 
 from sqlalchemy import (
     Column,
@@ -44,6 +46,8 @@ from utils.import_service import get_engine
 LOGGER = logging.getLogger(__name__)
 
 metadata = MetaData()
+_READY_ENGINES: WeakSet[Engine] = WeakSet()
+_SCHEMA_LOCK = Lock()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # 表定义
@@ -322,8 +326,15 @@ _SENSITIVE_FIELDS = ("id_card", "bank_card", "phone", "hukou_address", "id_addre
 def ensure_tables(engine: Optional[Engine] = None) -> None:
     """确保所有 hr_* 表存在（CREATE TABLE IF NOT EXISTS 语义）。"""
     engine = engine or get_engine()
-    metadata.create_all(engine)
-    _migrate_attendance_tables(engine)
+    if engine in _READY_ENGINES:
+        return
+    with _SCHEMA_LOCK:
+        if engine in _READY_ENGINES:
+            return
+        metadata.create_all(engine)
+        if engine.dialect.name == "mysql":
+            _migrate_attendance_tables(engine)
+        _READY_ENGINES.add(engine)
 
 
 # 老库升级：为已存在的 hr_attendance_sum 补充 2026-09 新增列（幂等）

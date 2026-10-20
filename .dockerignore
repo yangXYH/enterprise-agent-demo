@@ -1,0 +1,14 @@
+.git
+.venv
+**/node_modules
+**/__pycache__
+frontend/dist
+demo/frontend
+outputs
+uploads
+.env
+.env.demo
+.env.test
+.env.production
+*.log
+.verify

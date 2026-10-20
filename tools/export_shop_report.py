@@ -1,7 +1,7 @@
 """Export a configured demo SQLite expense database to the report snapshot.
 
-Use --db path/to/demo.db. The input is opened read-only. For the ready-to-open
-standalone demo, use tools/generate_demo_data.py instead; it needs no database.
+Use --db path/to/demo.db. The input is opened read-only. For the original application
+demo, tools/full_demo_seed.py creates the synthetic snapshot and isolated MySQL fixtures.
 """
 
 from __future__ import annotations

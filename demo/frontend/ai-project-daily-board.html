@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 项目进度看板</title>
+  <script>
+    // The board is a separate iframe document, so it must initialize its own theme.
+    try {
+      if (localStorage.getItem('user_theme') === 'dark') {
+        document.documentElement.classList.add('dark-theme')
+      }
+    } catch (_) { /* Storage may be unavailable in a restricted browser. */ }
+    window.addEventListener('message', function (event) {
+      if (event.source !== window.parent || event.origin !== window.location.origin) return
+      const message = event.data
+      if (!message || message.type !== 'ecom-theme') return
+      if (message.theme !== 'dark' && message.theme !== 'light') return
+      document.documentElement.classList.toggle('dark-theme', message.theme === 'dark')
+    })
+  </script>
+  <style data-ai-board-styles>
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.inset-0{inset:0}.bottom-6{bottom:1.5rem}.left-1\/2{left:50%}.z-50{z-index:50}.z-\[60\]{z-index:60}.col-span-3{grid-column:span 3/span 3}.col-span-4{grid-column:span 4/span 4}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:.25rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.table{display:table}.grid{display:grid}.hidden{display:none}.h-16{height:4rem}.h-5{height:1.25rem}.h-9{height:2.25rem}.max-h-\[60vh\]{max-height:60vh}.min-h-\[44px\]{min-height:44px}.min-h-screen{min-height:100vh}.w-5{width:1.25rem}.w-9{width:2.25rem}.w-full{width:100%}.min-w-0{min-width:0}.min-w-\[720px\]{min-width:720px}.max-w-lg{max-width:32rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-not-allowed{cursor:not-allowed}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-x-4{-moz-column-gap:1rem;column-gap:1rem}.gap-y-1{row-gap:.25rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.whitespace-pre-wrap{white-space:pre-wrap}.rounded{border-radius:.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-dashed{border-style:dashed}.border-blue-100{--tw-border-opacity:1;border-color:rgb(219 234 254/var(--tw-border-opacity,1))}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254/var(--tw-border-opacity,1))}.border-gray-100{--tw-border-opacity:1;border-color:rgb(243 244 246/var(--tw-border-opacity,1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235/var(--tw-border-opacity,1))}.border-orange-200{--tw-border-opacity:1;border-color:rgb(254 215 170/var(--tw-border-opacity,1))}.border-red-200{--tw-border-opacity:1;border-color:rgb(254 202 202/var(--tw-border-opacity,1))}.bg-black\/40{background-color:rgba(0,0,0,.4)}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255/var(--tw-bg-opacity,1))}.bg-blue-50\/40{background-color:rgba(239,246,255,.4)}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246/var(--tw-bg-opacity,1))}.bg-emerald-400{--tw-bg-opacity:1;background-color:rgb(52 211 153/var(--tw-bg-opacity,1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245/var(--tw-bg-opacity,1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246/var(--tw-bg-opacity,1))}.bg-gray-400{--tw-bg-opacity:1;background-color:rgb(156 163 175/var(--tw-bg-opacity,1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251/var(--tw-bg-opacity,1))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39/var(--tw-bg-opacity,1))}.bg-green-50{--tw-bg-opacity:1;background-color:rgb(240 253 244/var(--tw-bg-opacity,1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237/var(--tw-bg-opacity,1))}.bg-primary{--tw-bg-opacity:1;background-color:rgb(37 99 235/var(--tw-bg-opacity,1))}.bg-primary-light{--tw-bg-opacity:1;background-color:rgb(219 234 254/var(--tw-bg-opacity,1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242/var(--tw-bg-opacity,1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.p-1{padding:.25rem}.p-10{padding:2.5rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1\.5{padding-left:.375rem;padding-right:.375rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-2\.5{padding-left:.625rem;padding-right:.625rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-3{padding-top:.75rem}.pb-3,.py-3{padding-bottom:.75rem}.pr-4{padding-right:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-none{line-height:1}.tracking-tight{letter-spacing:-.025em}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235/var(--tw-text-opacity,1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105/var(--tw-text-opacity,1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity,1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity,1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99/var(--tw-text-opacity,1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81/var(--tw-text-opacity,1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55/var(--tw-text-opacity,1))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39/var(--tw-text-opacity,1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74/var(--tw-text-opacity,1))}.text-orange-500{--tw-text-opacity:1;color:rgb(249 115 22/var(--tw-text-opacity,1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12/var(--tw-text-opacity,1))}.text-primary{--tw-text-opacity:1;color:rgb(37 99 235/var(--tw-text-opacity,1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.opacity-40{opacity:.4}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-lg,.shadow-sm{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\:border-blue-300:hover{--tw-border-opacity:1;border-color:rgb(147 197 253/var(--tw-border-opacity,1))}.hover\:bg-blue-50:hover{--tw-bg-opacity:1;background-color:rgb(239 246 255/var(--tw-bg-opacity,1))}.hover\:bg-gray-50:hover{--tw-bg-opacity:1;background-color:rgb(249 250 251/var(--tw-bg-opacity,1))}.hover\:bg-orange-50:hover{--tw-bg-opacity:1;background-color:rgb(255 247 237/var(--tw-bg-opacity,1))}.hover\:bg-primary-dark:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216/var(--tw-bg-opacity,1))}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242/var(--tw-bg-opacity,1))}.hover\:text-gray-600:hover{--tw-text-opacity:1;color:rgb(75 85 99/var(--tw-text-opacity,1))}.hover\:text-primary:hover{--tw-text-opacity:1;color:rgb(37 99 235/var(--tw-text-opacity,1))}.hover\:shadow-md:hover{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.focus\:border-blue-400:focus{--tw-border-opacity:1;border-color:rgb(96 165 250/var(--tw-border-opacity,1))}.disabled\:cursor-not-allowed:disabled{cursor:not-allowed}.disabled\:opacity-40:disabled{opacity:.4}@media (min-width:640px){.sm\:w-72{width:18rem}}@media (min-width:1024px){.lg\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+  <style>
+    body {
+      min-width: 1120px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    .status-dot { width: 8px; height: 8px; border-radius: 9999px; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { border-radius: 8px; background: #d1d5db; }
+    ::-webkit-scrollbar-track { background: #f9fafb; }
+  </style>
+  <style>
+    html.dark-theme {
+      color-scheme: dark;
+      --board-bg: #0f172a;
+      --board-surface: #1e293b;
+      --board-surface-soft: #263449;
+      --board-input: #172235;
+      --board-border: #3a4a60;
+      --board-text: #e2e8f0;
+      --board-text-strong: #f8fafc;
+      --board-muted: #a8b6c9;
+    }
+    .dark-theme body.bg-gray-100,
+    .dark-theme #boardMain { background-color: var(--board-bg); color: var(--board-text); }
+    .dark-theme .bg-white { background-color: var(--board-surface); }
+    .dark-theme .bg-gray-100 { background-color: var(--board-surface-soft); }
+    .dark-theme #boardMain.bg-gray-100 { background-color: var(--board-bg); }
+    .dark-theme .bg-gray-50 { background-color: var(--board-input); }
+    .dark-theme .border-gray-100,
+    .dark-theme .border-gray-200 { border-color: var(--board-border); }
+    .dark-theme .text-gray-900 { color: var(--board-text-strong); }
+    .dark-theme .text-gray-800,
+    .dark-theme .text-gray-700 { color: var(--board-text); }
+    .dark-theme .text-gray-600 { color: #cbd5e1; }
+    .dark-theme .text-gray-500,
+    .dark-theme .text-gray-400 { color: var(--board-muted); }
+    .dark-theme .text-primary,
+    .dark-theme .text-blue-600 { color: #93c5fd; }
+    .dark-theme .bg-primary-light,
+    .dark-theme .bg-blue-50 { background-color: #173453; }
+    .dark-theme .border-blue-100,
+    .dark-theme .border-blue-200 { border-color: #315b80; }
+    .dark-theme .bg-emerald-50,
+    .dark-theme .bg-green-50 { background-color: #123d39; }
+    .dark-theme .text-emerald-600,
+    .dark-theme .text-green-600 { color: #6ee7b7; }
+    .dark-theme .bg-orange-50 { background-color: #493224; }
+    .dark-theme .text-orange-500,
+    .dark-theme .text-orange-600 { color: #fdba74; }
+    .dark-theme .border-orange-200 { border-color: #825436; }
+    .dark-theme .bg-red-50 { background-color: #482936; }
+    .dark-theme .text-red-600 { color: #fda4af; }
+    .dark-theme .border-red-200 { border-color: #824353; }
+    .dark-theme #dailyLogEditor { background-color: #1b3046; border-color: #315b80; }
+    .dark-theme :is(input, select, textarea),
+    .dark-theme :is(input, select, textarea).bg-white {
+      background-color: var(--board-input);
+      border-color: var(--board-border);
+      color: var(--board-text);
+    }
+    .dark-theme :is(input, textarea)::placeholder { color: var(--board-muted); }
+    .dark-theme [class*="hover:bg-gray-50"]:hover,
+    .dark-theme [class*="hover:bg-blue-50"]:hover { background-color: #2b405b; }
+    .dark-theme [class*="hover:bg-orange-50"]:hover { background-color: #5a3a28; }
+    .dark-theme [class*="hover:bg-red-50"]:hover { background-color: #59313f; }
+    .dark-theme [class*="hover:text-primary"]:hover { color: #bfdbfe; }
+    .dark-theme ::-webkit-scrollbar-thumb { background: #52647b; }
+    .dark-theme ::-webkit-scrollbar-thumb:hover { background: #647891; }
+    .dark-theme ::-webkit-scrollbar-track { background: var(--board-bg); }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="min-h-screen">
+    <!-- 顶部标题栏 -->
+    <header class="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">AI</div>
+        <div>
+          <div id="headerBoardTitle" class="text-base font-bold text-gray-900">AI 项目进度看板</div>
+          <div class="text-xs text-gray-400">AI Project Progress</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <div id="headerDate" class="text-sm font-semibold text-gray-700"></div>
+          <div id="headerWorkday" class="text-xs text-gray-400"></div>
+        </div>
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-light text-sm font-bold text-primary">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main id="boardMain" class="bg-gray-100 p-6" aria-busy="true">
+        <div id="dailyView">
+          <!-- ① 顶部指标 -->
+          <section id="metricsSection" class="mb-6">
+            <div id="metricsGrid" class="grid grid-cols-4 gap-4"><div class="col-span-4 rounded-xl border border-gray-200 bg-white p-5 text-sm text-gray-500">正在加载看板数据…</div></div>
+          </section>
+
+          <!-- ② 项目概览 -->
+          <section id="projectsSection" class="mb-6">
+            <div class="mb-4 flex items-center justify-between">
+              <div>
+                <h2 class="text-base font-bold text-gray-900">项目概览</h2>
+                <p class="text-xs text-gray-400">按「待开启 / 开发中 / 已上线」切换查看，默认打开开发中</p>
+              </div>
+              <button id="newProjectBtn" type="button" class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-dark">+ 新建项目</button>
+            </div>
+            <div id="projectStatusTabs" class="mb-4 inline-flex items-center gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
+              <button type="button" data-status="待开启" class="status-tab rounded-lg px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:text-primary">⏳ 待开启 <span class="status-tab-count"></span></button>
+              <button type="button" data-status="开发中" class="status-tab rounded-lg px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:text-primary">🔵 开发中 <span class="status-tab-count"></span></button>
+              <button type="button" data-status="已上线" class="status-tab rounded-lg px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:text-primary">🟢 已上线 <span class="status-tab-count"></span></button>
+            </div>
+            <div id="projectsGrid" class="grid grid-cols-3 gap-4"><div class="col-span-3 rounded-xl border border-gray-200 bg-white p-5 text-sm text-gray-500">正在加载项目…</div></div>
+          </section>
+
+          <!-- ③ 每日推进记录 -->
+          <section id="dailyLogSection" class="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 class="text-base font-bold text-gray-900">每日推进记录 · <span id="dailyLogTitleDate"></span></h2>
+                <p id="dailyLogSubtitle" class="text-xs text-gray-400">今天做了什么、明天计划、风险（每个任务/项目一条独立记录）</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="dailyLogPrev" type="button" class="rounded-lg border border-gray-200 px-2.5 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40">‹ 前一天</button>
+                <button id="dailyLogToday" type="button" class="rounded-lg border border-gray-200 px-2.5 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary">今天</button>
+                <button id="dailyLogNext" type="button" class="rounded-lg border border-gray-200 px-2.5 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40">后一天 ›</button>
+                <button id="addDailyLogBtn" type="button" class="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary-dark">+ 添加记录</button>
+              </div>
+            </div>
+            <!-- 当天/历史日已有推进记录列表 -->
+            <div id="dailyLogList" class="mb-4 space-y-2"><div class="text-sm text-gray-500">正在加载推进记录…</div></div>
+            <!-- 添加/编辑单条推进记录 -->
+            <div id="dailyLogEditor" class="hidden rounded-lg border border-blue-100 bg-blue-50/40 p-4">
+              <div class="mb-2 text-xs font-semibold text-gray-700" id="dailyLogEditorTitle">添加推进记录</div>
+              <div class="mb-3">
+                <label class="mb-1 block text-xs text-gray-500">所属项目 / 任务</label>
+                <select id="logProject" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400 sm:w-72"></select>
+              </div>
+              <div class="mb-3">
+                <label class="mb-1 block text-xs text-gray-500">今天做了什么 ✅</label>
+                <textarea id="logWork" rows="3" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder=""></textarea>
+              </div>
+              <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div>
+                  <label class="mb-1 block text-xs text-gray-500">明天计划 📝</label>
+                  <input id="logTomorrow" type="text" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+                </div>
+                <div>
+                  <label class="mb-1 block text-xs text-gray-500">风险 / 阻塞 ⚠️</label>
+                  <input id="logRisks" type="text" class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+                </div>
+              </div>
+              <div class="mt-4 flex justify-end gap-2">
+                <button id="dailyLogCancel" type="button" class="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary">取消</button>
+                <button id="saveDailyLogBtn" type="button" class="rounded-lg bg-primary px-4 py-1.5 text-xs font-medium text-white transition hover:bg-primary-dark">保存这条记录</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ④ 风险与阻塞 -->
+          <section id="risksSection" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 flex items-center justify-between">
+              <div>
+                <h2 class="text-base font-bold text-gray-900">风险与阻塞</h2>
+                <p class="text-xs text-gray-400">影响项目推进的阻塞事项，自动计算阻塞天数</p>
+              </div>
+              <button id="newRiskBtn" type="button" class="rounded-lg border border-orange-200 px-3 py-1.5 text-xs font-medium text-orange-600 transition hover:bg-orange-50">+ 添加风险</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[720px] text-left text-sm">
+                <thead>
+                  <tr class="border-b border-gray-200 text-xs text-gray-400">
+                    <th class="pb-3 pr-4 font-medium">风险</th>
+                    <th class="pb-3 pr-4 font-medium">影响</th>
+                    <th class="pb-3 pr-4 font-medium">负责人</th>
+                    <th class="pb-3 pr-4 font-medium">状态</th>
+                    <th class="pb-3 pr-4 font-medium">已阻塞</th>
+                    <th class="pb-3 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="risksTableBody"><tr><td colspan="6" class="py-10 text-center text-sm text-gray-500">正在加载风险…</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+      </main>
+    </div>
+    </div>
+
+  <!-- 项目记录弹窗 -->
+  <div id="projectDetailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-6">
+    <div class="w-full max-w-xl rounded-xl bg-white p-6 shadow-xl">
+      <div class="mb-4 flex items-center justify-between">
+        <div>
+          <h3 id="projectDetailTitle" class="text-base font-bold text-gray-900">项目记录</h3>
+          <p class="text-xs text-gray-400">该项目每日完成了什么</p>
+        </div>
+        <button id="projectDetailClose" type="button" class="text-xl leading-none text-gray-400 transition hover:text-gray-600">×</button>
+      </div>
+      <div id="projectDetailBody" class="max-h-[60vh] space-y-2 overflow-y-auto"></div>
+      <div class="mt-5 flex justify-end">
+        <button id="projectDetailCancel" type="button" class="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition hover:border-blue-300 hover:text-primary">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 项目编辑弹窗 -->
+  <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-6">
+    <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+      <div class="mb-5 flex items-center justify-between">
+        <div>
+          <h3 id="projectModalTitle" class="text-base font-bold text-gray-900">新建项目</h3>
+          <p class="text-xs text-gray-400">记录一个 AI 项目</p>
+        </div>
+        <button id="projectModalClose" type="button" class="text-xl leading-none text-gray-400 transition hover:text-gray-600">×</button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="mb-1 block text-xs text-gray-500">项目名称</label>
+          <input id="projectName" type="text" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">状态</label>
+            <select id="projectStatus" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400">
+              <option value="待开启">⏳ 待开启</option>
+              <option value="开发中">🔵 开发中</option>
+              <option value="已上线">🟢 已上线</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">负责人</label>
+            <input id="projectOwner" type="text" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+          </div>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs text-gray-500">当前重点（一句话）</label>
+          <input id="projectFocus" type="text" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">开始日期</label>
+            <input id="projectStartDate" type="date" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">结束日期</label>
+            <input id="projectEndDate" type="date" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400" />
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button id="projectModalCancel" type="button" class="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition hover:border-blue-300 hover:text-primary">取消</button>
+        <button id="projectModalSave" type="button" class="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition hover:bg-primary-dark">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 风险编辑弹窗 -->
+  <div id="riskModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-6">
+    <div class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+      <div class="mb-5 flex items-center justify-between">
+        <div>
+          <h3 id="riskModalTitle" class="text-base font-bold text-gray-900">添加风险</h3>
+          <p class="text-xs text-gray-400">记录影响项目推进的阻塞与风险</p>
+        </div>
+        <button id="riskModalClose" type="button" class="text-xl leading-none text-gray-400 transition hover:text-gray-600">×</button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="mb-1 block text-xs text-gray-500">所属项目</label>
+          <select id="riskProject" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400"></select>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs text-gray-500">风险描述</label>
+          <input id="riskName" type="text" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition focus:border-blue-400" placeholder="" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">影响</label>
+            <select id="riskImpact" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400">
+              <option value="高">高</option>
+              <option value="中" selected>中</option>
+              <option value="低">低</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">状态</label>
+            <select id="riskStatus" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400">
+              <option value="待解决">待解决</option>
+              <option value="处理中">处理中</option>
+              <option value="已解决">已解决</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">负责人</label>
+            <input id="riskOwner" type="text" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none transition focus:border-blue-400" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-gray-500">阻塞开始日期</label>
+            <input id="riskBlockedSince" type="date" class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 outline-none transition focus:border-blue-400" />
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button id="riskModalCancel" type="button" class="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition hover:border-blue-300 hover:text-primary">取消</button>
+        <button id="riskModalSave" type="button" class="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition hover:bg-primary-dark">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ 状态 ============
+    let projectTable = []
+    let riskTable = []
+    // 本周全部推进记录（服务端按当前周返回）
+    let weekLogs = []
+    // 全部推进记录（按日期倒序），用于点击项目查看历史
+    let allLogs = []
+    // 每日推进记录：当天/历史日多条相互独立的记录（每个任务/项目一条）
+    let dailyLogs = []
+    // 当前正在编辑的单条记录所属项目ID（空表示新增）
+    let editingLogProjectId = ''
+    let dailyLogDates = []
+    let viewLogDate = ''
+    let viewLog = null
+    let editingProjectId = ''
+    let editingRiskId = ''
+    // 项目概览当前打开的卡片页（默认开发中）
+    let activeStatusTab = '开发中'
+
+    const BOARD_API_URL = '/api/ai-daily-board'
+    const LOCAL_BACKUP_KEY = 'ai_daily_board_v1'
+    let saveChain = Promise.resolve()
+    let saveSucceeded = true
+
+    const settingsData = {
+      boardTitle: 'AI 项目进度看板',
+      currentDate: formatDateKey(new Date()),
+      showCharts: true,
+      showStandup: true,
+      showTimeline: true,
+      showTable: true
+    }
+    const defaultSettings = { ...settingsData }
+    let needsDateSync = false
+
+    function findLogByProject(projectId) {
+      return dailyLogs.find((l) => l.projectId === projectId) || null
+    }
+
+    function applyBoardState(parsed) {
+      if (!parsed) return
+      if (parsed.settings) Object.assign(settingsData, parsed.settings)
+      if (Array.isArray(parsed.projects)) projectTable = parsed.projects.map((p, i) => ({ ...p, id: p.id || `project-${i + 1}-${Date.now()}` }))
+      if (Array.isArray(parsed.risks)) riskTable = parsed.risks.map((r, i) => ({ ...r, id: r.id || `risk-${i + 1}-${Date.now()}` }))
+      if (Array.isArray(parsed.dailyLogDates)) dailyLogDates = parsed.dailyLogDates
+      if (Array.isArray(parsed.dailyLogs)) dailyLogs = parsed.dailyLogs
+      if (Array.isArray(parsed.weekLogs)) weekLogs = parsed.weekLogs
+      if (Array.isArray(parsed.allLogs)) allLogs = parsed.allLogs
+      const todayKey = formatDateKey(new Date())
+      // 看板日期始终对齐真实今天：存储日期过期（过去）或超前（未来）都回滚到今天，
+      // 避免「每日推进记录」标题与日志停留在错误的日期。
+      if (!settingsData.currentDate || settingsData.currentDate !== todayKey) {
+        settingsData.currentDate = todayKey
+        needsDateSync = true
+      }
+    }
+
+    async function loadState(targetDate) {
+      try {
+        const query = targetDate ? `?board_key=default&date=${encodeURIComponent(targetDate)}` : '?board_key=default'
+        const response = await fetch(`${BOARD_API_URL}${query}`)
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        const parsed = await response.json()
+        applyBoardState(parsed)
+        if (targetDate && targetDate !== settingsData.currentDate) {
+          viewLogDate = targetDate
+          viewLog = parsed.dailyLog || parsed.dailyLogs || []
+        } else {
+          viewLogDate = settingsData.currentDate
+          viewLog = null
+          dailyLogs = Array.isArray(parsed.dailyLogs) ? parsed.dailyLogs : []
+        }
+        await migrateLocalBackup()
+        if (needsDateSync) {
+          // 跨入新的一天：当天日报从空白开始，不沿用昨天/旧日期的内容
+          dailyLogs = []
+          editingLogProjectId = ''
+          await saveState()
+        }
+      } catch {
+        showToast('数据加载失败，请确认后端服务与 MySQL 已启动')
+      }
+    }
+
+    function saveState() {
+      saveSucceeded = false
+      const payload = {
+        settings: settingsData,
+        projects: projectTable,
+        dailyLogs: dailyLogs,
+        risks: riskTable
+      }
+      saveChain = saveChain
+        .then(() => fetch(BOARD_API_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }))
+        .then(async (response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`)
+          const saved = await response.json()
+          saveSucceeded = true
+          if (Array.isArray(saved.projects)) projectTable = saved.projects
+          if (Array.isArray(saved.risks)) riskTable = saved.risks
+          if (Array.isArray(saved.dailyLogDates)) dailyLogDates = saved.dailyLogDates
+          if (Array.isArray(saved.dailyLogs)) dailyLogs = saved.dailyLogs
+          if (Array.isArray(saved.weekLogs)) weekLogs = saved.weekLogs
+          if (Array.isArray(saved.allLogs)) allLogs = saved.allLogs
+          return saved
+        })
+        .catch((error) => {
+          saveSucceeded = false
+          console.error('保存 AI 项目进度看板失败', error)
+          showToast(`保存失败：${error.message || '网络错误'}`)
+          return null
+        })
+      return saveChain
+    }
+
+    async function migrateLocalBackup() {
+      let raw = null
+      try { raw = localStorage.getItem(LOCAL_BACKUP_KEY) } catch { return }
+      if (!raw) return
+      let parsed = null
+      try { parsed = JSON.parse(raw) } catch {
+        try { localStorage.removeItem(LOCAL_BACKUP_KEY) } catch {}
+        return
+      }
+      const hasLocalData = (Array.isArray(parsed?.projects) && parsed.projects.length > 0) || (Array.isArray(parsed?.risks) && parsed.risks.length > 0)
+      const hasDbData = projectTable.length > 0 || riskTable.length > 0
+      if (!hasLocalData || hasDbData) {
+        try { localStorage.removeItem(LOCAL_BACKUP_KEY) } catch {}
+        return
+      }
+      applyBoardState(parsed)
+      await saveState()
+      if (saveSucceeded) {
+        try { localStorage.removeItem(LOCAL_BACKUP_KEY) } catch {}
+        showToast('已将浏览器本地数据迁移到数据库')
+      }
+    }
+
+    // ============ 工具 ============
+    function pad2(v) { return String(v).padStart(2, '0') }
+    function parseDateKey(value) { const p = String(value).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]) }
+    function formatDateKey(d) { return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}` }
+    function addDateDays(value, amount) { const d = parseDateKey(value); d.setDate(d.getDate() + amount); return formatDateKey(d) }
+    function weekdayText(dateKey) { const w = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']; return w[parseDateKey(dateKey).getDay()] }
+    function getISOWeek(dateKey) {
+      const d = parseDateKey(dateKey)
+      const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+      const dayNum = dt.getUTCDay() || 7
+      dt.setUTCDate(dt.getUTCDate() + 4 - dayNum)
+      const ys = new Date(Date.UTC(dt.getUTCFullYear(), 0, 1))
+      const week = Math.ceil((((dt - ys) / 86400000) + 1) / 7)
+      return { year: dt.getUTCFullYear(), week }
+    }
+
+    // ============ ① 顶部指标 ============
+    function renderMetrics() {
+      const total = projectTable.length
+      const live = projectTable.filter((p) => p.status === '已上线').length
+      const active = projectTable.filter((p) => p.status === '开发中').length
+      const weekDone = weekLogs.filter((w) => (w.work || '').trim()).length
+      const cards = [
+        { title: 'AI 项目数量', value: `${total}`, compare: '全部项目' },
+        { title: '已上线', value: `${live}`, compare: `${live}/${total || 0}` },
+        { title: '开发中', value: `${active}`, compare: '持续推进' },
+        { title: '本周推进记录', value: `${weekDone} 条`, compare: '本周做了什么' }
+      ]
+      document.getElementById('metricsGrid').innerHTML = cards.map((c) => `
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div class="mb-2 text-sm text-gray-500">${c.title}</div>
+          <div class="mb-2 text-3xl font-bold tracking-tight text-gray-900">${c.value}</div>
+          <div class="text-xs text-gray-400">${c.compare}</div>
+        </div>
+      `).join('')
+    }
+
+    // ============ ② 项目概览 ============
+    const statusMeta = {
+      '已上线': { dot: 'bg-emerald-400', cls: 'bg-emerald-50 text-emerald-600' },
+      '开发中': { dot: 'bg-blue-500', cls: 'bg-blue-50 text-blue-600' },
+      '待开启': { dot: 'bg-gray-400', cls: 'bg-gray-100 text-gray-500' }
+    }
+
+    function projectWeekLogs(projectId) {
+      return weekLogs.filter((w) => w.projectId === projectId)
+    }
+
+    // 项目概览状态页切换：待开启 / 开发中 / 已上线（默认开发中）
+    function renderStatusTabs() {
+      const tabs = document.querySelectorAll('#projectStatusTabs .status-tab')
+      tabs.forEach((tab) => {
+        const status = tab.dataset.status
+        const active = status === activeStatusTab
+        const count = projectTable.filter((p) => p.status === status).length
+        const countEl = tab.querySelector('.status-tab-count')
+        if (countEl) countEl.textContent = count
+        tab.classList.toggle('bg-primary', active)
+        tab.classList.toggle('text-white', active)
+        tab.classList.toggle('shadow-sm', active)
+        tab.classList.toggle('text-gray-600', !active)
+        tab.classList.toggle('hover:text-primary', !active)
+      })
+    }
+
+    function openProjectDetail(project) {
+      const logs = allLogs.filter((w) => w.projectId === project.id || (project.name && w.projectName === project.name))
+      document.getElementById('projectDetailTitle').textContent = project.name || '项目'
+      document.getElementById('projectDetailBody').innerHTML = logs.length
+        ? logs.map((w) => `
+            <div class="rounded-lg border border-gray-100 bg-gray-50 p-3">
+              <div class="mb-1 text-xs text-gray-400">${w.logDate}</div>
+              <div class="text-sm text-gray-800">${w.work}</div>
+              ${w.tomorrow ? `<div class="mt-1 text-xs text-gray-500">明日：${w.tomorrow}</div>` : ''}
+              ${w.risks ? `<div class="mt-1 text-xs text-orange-500">风险：${w.risks}</div>` : ''}
+            </div>
+          `).join('')
+        : '<div class="py-10 text-center text-sm text-gray-400">该项目还没有每日推进记录，去"每日推进记录"添加吧</div>'
+      document.getElementById('projectDetailModal').classList.remove('hidden')
+      document.getElementById('projectDetailModal').classList.add('flex')
+    }
+
+    function closeProjectDetail() {
+      document.getElementById('projectDetailModal').classList.add('hidden')
+      document.getElementById('projectDetailModal').classList.remove('flex')
+    }
+
+    function renderProjects() {
+      renderStatusTabs()
+      const grid = document.getElementById('projectsGrid')
+      const canEdit = canEditProjects()
+      document.getElementById('newProjectBtn').style.display = canEdit ? '' : 'none'
+      const list = projectTable.filter((p) => p.status === activeStatusTab)
+      if (!list.length) {
+        grid.innerHTML = `<div class="col-span-3 rounded-xl border border-dashed border-gray-200 bg-white p-10 text-center text-sm text-gray-400">暂无「${activeStatusTab}」项目${canEdit ? '，点击右上角"+ 新建项目"开始记录' : ''}</div>`
+        return
+      }
+      grid.innerHTML = list.map((project) => {
+        const meta = statusMeta[project.status] || statusMeta['开发中']
+        const logs = projectWeekLogs(project.id)
+        const weekHtml = logs.length
+          ? `<ul class="space-y-1">${logs.map((w) => `<li class="flex gap-1.5"><span class="shrink-0 text-gray-400">${(w.logDate || '').slice(5) || ''}</span><span>${w.work}</span></li>`).join('')}</ul>`
+          : '<div class="text-xs text-gray-400">本周暂无推进记录</div>'
+        return `
+          <div class="project-card cursor-pointer rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md" data-id="${project.id}">
+            <div class="mb-1 flex items-start justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="status-dot ${meta.dot}"></span>
+                <span class="font-bold text-gray-900">${project.name || '未命名项目'}</span>
+              </div>
+              <span class="rounded-md px-2 py-0.5 text-[11px] font-semibold ${meta.cls}">${project.status}</span>
+            </div>
+            <p class="mb-2 text-xs text-gray-500">${project.focus || '还没有当前重点'}</p>
+            <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+              <span>负责人：${project.owner || '本人'}</span>
+              <span>时间：${project.startDate ? `${project.startDate.slice(5)} ~ ` : ''}${project.endDate ? project.endDate.slice(5) : (project.startDate ? '' : '未设')}</span>
+            </div>
+            <div class="mb-2 text-xs font-semibold text-gray-700">本周做了什么</div>
+            <div class="min-h-[44px] rounded-lg bg-gray-50 p-2 text-xs text-gray-700">${weekHtml}</div>
+            <div class="mt-3 flex gap-2">
+              <button type="button" data-action="records" data-id="${project.id}" class="project-op rounded-md border border-blue-200 px-2.5 py-1 text-xs text-blue-600 transition hover:bg-blue-50">📋 记录</button>
+              ${canEditProjects() ? `
+              <button type="button" data-action="edit" data-id="${project.id}" class="project-op rounded-md border border-gray-200 px-2.5 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary">编辑</button>
+              <button type="button" data-action="delete" data-id="${project.id}" class="project-op rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-600 transition hover:bg-red-50">删除</button>` : ''}
+            </div>
+          </div>
+        `
+      }).join('')
+    }
+
+    function openProjectModal(project) {
+      editingProjectId = project?.id || ''
+      const todayKey = formatDateKey(new Date())
+      document.getElementById('projectModalTitle').textContent = project ? '编辑项目' : '新建项目'
+      document.getElementById('projectName').value = project?.name || ''
+      document.getElementById('projectStatus').value = project?.status || '开发中'
+      document.getElementById('projectOwner').value = project?.owner || ''
+      document.getElementById('projectFocus').value = project?.focus || ''
+      document.getElementById('projectStartDate').value = project?.startDate || todayKey
+      document.getElementById('projectEndDate').value = project?.endDate || addDateDays(todayKey, 7)
+      document.getElementById('projectModal').classList.remove('hidden')
+      document.getElementById('projectModal').classList.add('flex')
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.add('hidden')
+      document.getElementById('projectModal').classList.remove('flex')
+    }
+
+    function saveProjectModal() {
+      const name = document.getElementById('projectName').value.trim()
+      if (!name) { showToast('请填写项目名称'); return }
+      const startDate = document.getElementById('projectStartDate').value
+      const endDate = document.getElementById('projectEndDate').value
+      if (startDate && endDate && endDate < startDate) { showToast('结束日期不能早于开始日期'); return }
+      const payload = {
+        name,
+        status: document.getElementById('projectStatus').value,
+        owner: document.getElementById('projectOwner').value.trim(),
+        focus: document.getElementById('projectFocus').value.trim(),
+        startDate,
+        endDate
+      }
+      if (editingProjectId) {
+        projectTable = projectTable.map((p) => p.id === editingProjectId ? { ...p, ...payload, id: editingProjectId } : p)
+      } else {
+        projectTable.push({ ...payload, id: `project-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` })
+      }
+      saveState()
+      closeProjectModal()
+      renderProjects()
+      renderMetrics()
+      renderDailyLog()
+      logActivity(editingProjectId ? '编辑项目' : '新建项目', name, `状态:${payload.status}`)
+      showToast('项目已保存')
+    }
+
+    function deleteProject(id) {
+      if (!confirm('确认删除该项目？')) return
+      const proj = projectTable.find((p) => p.id === id)
+      projectTable = projectTable.filter((p) => p.id !== id)
+      saveState()
+      renderProjects()
+      renderMetrics()
+      renderDailyLog()
+      if (proj) logActivity('删除项目', proj.name, `负责人:${proj.owner || '本人'}`)
+      showToast('项目已删除')
+    }
+
+    // ============ ③ 每日推进记录 ============
+    function navigateLog(direction) {
+      const sortedDates = [...dailyLogDates].sort()
+      const idx = sortedDates.indexOf(viewLogDate || settingsData.currentDate)
+      const target = direction < 0 ? sortedDates[idx - 1] : sortedDates[idx + 1]
+      if (target) loadState(target).then(() => renderAll())
+    }
+
+    function renderDailyLog() {
+      const viewingToday = !viewLog || viewLogDate === settingsData.currentDate
+      document.getElementById('dailyLogTitleDate').textContent = viewLogDate || settingsData.currentDate
+      const subtitle = document.getElementById('dailyLogSubtitle')
+      if (subtitle) {
+        subtitle.textContent = viewingToday
+          ? '每个任务/项目一条独立记录，互不覆盖'
+          : `${viewLogDate} 的历史记录，只读，编辑请切回今天`
+      }
+      const sortedDates = [...dailyLogDates].sort()
+      const idx = sortedDates.indexOf(viewLogDate || settingsData.currentDate)
+      const prevBtn = document.getElementById('dailyLogPrev')
+      const nextBtn = document.getElementById('dailyLogNext')
+      if (prevBtn) prevBtn.disabled = idx <= 0
+      if (nextBtn) nextBtn.disabled = idx < 0 || idx >= sortedDates.length - 1
+
+      const addBtn = document.getElementById('addDailyLogBtn')
+      // 历史日只读：隐藏“添加记录”并收起编辑器
+      const editorVisible = addBtn && addBtn.dataset.open === '1'
+      if (addBtn) {
+        addBtn.style.display = viewingToday ? '' : 'none'
+        if (!viewingToday) { addBtn.dataset.open = '0'; closeDailyLogEditor(false) }
+      }
+
+      renderDailyLogList(viewingToday)
+
+      // 编辑器中的项目下拉
+      const projectSelect = document.getElementById('logProject')
+      if (!projectTable.length) {
+        projectSelect.innerHTML = '<option value="">暂无项目，请先新建项目</option>'
+      } else {
+        projectSelect.innerHTML = projectTable.map((p) => `<option value="${p.id}">${p.name}</option>`).join('')
+      }
+      projectSelect.value = projectSelect.value || (projectTable.length ? projectTable[0].id : '')
+      ;['logProject', 'logWork', 'logTomorrow', 'logRisks'].forEach((id) => { document.getElementById(id).disabled = !viewingToday })
+      if (editorVisible && !viewingToday) closeDailyLogEditor(false)
+      const saveBtn = document.getElementById('saveDailyLogBtn')
+      if (saveBtn) {
+        saveBtn.disabled = !viewingToday
+        saveBtn.classList.toggle('opacity-40', !viewingToday)
+        saveBtn.classList.toggle('cursor-not-allowed', !viewingToday)
+      }
+    }
+
+    // 渲染当天/历史日的推进记录列表（每条相互独立）
+    function renderDailyLogList(viewingToday) {
+      const box = document.getElementById('dailyLogList')
+      const list = dailyLogs || []
+      if (!list.length) {
+        box.innerHTML = '<div class="rounded-lg border border-dashed border-gray-200 bg-gray-50 p-4 text-center text-xs text-gray-400">当天还没有推进记录，点击"+ 添加记录"录入第一条</div>'
+        return
+      }
+      box.innerHTML = list.map((log) => {
+        const proj = projectTable.find((p) => p.id === log.projectId)
+        const name = log.projectName || (proj ? proj.name : '未指定项目')
+        return `
+          <div class="flex items-start justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 p-3">
+            <div class="min-w-0 flex-1">
+              <div class="mb-1 flex flex-wrap items-center gap-2">
+                <span class="rounded bg-blue-50 px-1.5 py-0.5 text-[11px] font-medium text-blue-600">${name}</span>
+              </div>
+              <div class="whitespace-pre-wrap text-sm text-gray-800">${log.work || ''}</div>
+              ${log.tomorrow ? `<div class="mt-1 text-xs text-gray-500">📝 明天：${log.tomorrow}</div>` : ''}
+              ${log.risks ? `<div class="mt-1 text-xs text-orange-500">⚠️ 风险：${log.risks}</div>` : ''}
+            </div>
+            ${viewingToday ? `
+            <div class="flex shrink-0 gap-1">
+              <button type="button" data-action="edit-log" data-project="${log.projectId}" class="log-op rounded-md border border-gray-200 bg-white px-2 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary">编辑</button>
+              <button type="button" data-action="delete-log" data-project="${log.projectId}" class="log-op rounded-md border border-red-200 bg-white px-2 py-1 text-xs text-red-600 transition hover:bg-red-50">删除</button>
+            </div>` : ''}
+          </div>
+        `
+      }).join('')
+    }
+
+    // 打开添加/编辑单条记录的编辑器
+    function openDailyLogEditor(projectId) {
+      if (!projectTable.length) { showToast('请先新建项目'); return }
+      const viewingToday = !viewLog || viewLogDate === settingsData.currentDate
+      if (!viewingToday) return
+      editingLogProjectId = projectId || ''
+      document.getElementById('dailyLogEditorTitle').textContent = editingLogProjectId ? '编辑这条推进记录' : '添加推进记录'
+      const existing = editingLogProjectId ? findLogByProject(editingLogProjectId) : null
+      const projectSelect = document.getElementById('logProject')
+      projectSelect.innerHTML = projectTable.map((p) => `<option value="${p.id}">${p.name}</option>`).join('')
+      const currentProject = editingLogProjectId || (existing ? existing.projectId : (projectTable.length ? projectTable[0].id : ''))
+      projectSelect.value = currentProject
+      document.getElementById('logWork').value = existing ? (existing.work || '') : ''
+      document.getElementById('logTomorrow').value = existing ? (existing.tomorrow || '') : ''
+      document.getElementById('logRisks').value = existing ? (existing.risks || '') : ''
+      document.getElementById('dailyLogEditor').classList.remove('hidden')
+      const addBtn = document.getElementById('addDailyLogBtn')
+      if (addBtn) addBtn.dataset.open = '1'
+    }
+
+    function closeDailyLogEditor(updateButton) {
+      document.getElementById('dailyLogEditor').classList.add('hidden')
+      editingLogProjectId = ''
+      if (updateButton !== false) {
+        const addBtn = document.getElementById('addDailyLogBtn')
+        if (addBtn) addBtn.dataset.open = ''
+      }
+    }
+
+    // 保存一条独立记录：按项目 upsert，不影响当天其他记录
+    function saveOneDailyLog() {
+      const viewingToday = !viewLog || viewLogDate === settingsData.currentDate
+      if (!viewingToday) return
+      const projectId = document.getElementById('logProject').value
+      const project = projectTable.find((p) => p.id === projectId)
+      const newWork = document.getElementById('logWork').value.trim()
+      if (!newWork) { showToast('请填写「今天做了什么」'); return }
+      const tomorrow = document.getElementById('logTomorrow').value.trim()
+      const risks = document.getElementById('logRisks').value.trim()
+      const existing = findLogByProject(projectId)
+      if (existing) {
+        Object.assign(existing, { projectName: project ? project.name : '', work: newWork, tomorrow, risks })
+      } else {
+        dailyLogs.push({ projectId, projectName: project ? project.name : '', work: newWork, tomorrow, risks })
+      }
+      saveState()
+      logActivity('保存每日记录', project ? project.name : '未指定项目', newWork)
+      closeDailyLogEditor()
+      renderDailyLog()
+      renderMetrics()
+      showToast('已保存这条记录')
+    }
+
+    function deleteDailyLogEntry(projectId) {
+      if (!confirm('确认删除这条推进记录？')) return
+      const target = findLogByProject(projectId)
+      if (!target) return
+      dailyLogs = dailyLogs.filter((l) => l.projectId !== projectId)
+      saveState()
+      renderDailyLog()
+      renderMetrics()
+      if (target.projectName) logActivity('删除每日记录', target.projectName, target.work)
+      showToast('已删除')
+    }
+
+    // ============ ④ 风险与阻塞 ============
+    function renderRisks() {
+      const body = document.getElementById('risksTableBody')
+      body.innerHTML = riskTable.length
+        ? riskTable.map((item) => `
+            <tr class="border-b border-gray-100 transition hover:bg-gray-50">
+              <td class="py-3 pr-4">
+                ${item.projectName ? `<div class="mb-1"><span class="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500">${item.projectName}</span></div>` : ''}
+                <div class="flex items-center gap-2">
+                  ${item.blockedDays > 0 && item.status !== '已解决' ? '<span class="text-sm">⚠️</span>' : ''}
+                  <span class="font-medium text-gray-700">${item.risk}</span>
+                </div>
+                ${item.blockedDays > 2 && item.status !== '已解决' ? `<div class="mt-1 text-[11px] text-orange-500">已阻塞 ${item.blockedDays} 天，请尽快跟进</div>` : ''}
+              </td>
+              <td class="py-3 pr-4"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${item.impact === '高' ? 'bg-red-50 text-red-600' : item.impact === '中' ? 'bg-orange-50 text-orange-600' : 'bg-gray-100 text-gray-500'}">${item.impact}</span></td>
+              <td class="py-3 pr-4 text-gray-600">${item.owner || '--'}</td>
+              <td class="py-3 pr-4"><span class="rounded-md px-2 py-0.5 text-xs font-medium ${item.status === '已解决' ? 'bg-green-50 text-green-600' : item.status === '处理中' ? 'bg-blue-50 text-blue-600' : 'bg-red-50 text-red-600'}">${item.status}</span></td>
+              <td class="py-3 pr-4 text-gray-600">${item.blockedDays > 0 ? `${item.blockedDays} 天` : '--'}</td>
+              <td class="py-3">
+                <div class="flex gap-2">
+                  <button type="button" data-action="edit" data-id="${item.id}" class="risk-op rounded-md border border-gray-200 px-2.5 py-1 text-xs text-gray-600 transition hover:border-blue-300 hover:text-primary">编辑</button>
+                  <button type="button" data-action="delete" data-id="${item.id}" class="risk-op rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-600 transition hover:bg-red-50">删除</button>
+                </div>
+              </td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="6" class="py-10 text-center text-sm text-gray-400">暂无风险，项目推进顺利 🎉</td></tr>'
+    }
+
+    function openRiskModal(item) {
+      editingRiskId = item?.id || ''
+      document.getElementById('riskModalTitle').textContent = item ? '编辑风险' : '添加风险'
+      const projectSelect = document.getElementById('riskProject')
+      if (!projectTable.length) {
+        projectSelect.innerHTML = '<option value="">暂无项目，请先新建项目</option>'
+      } else {
+        projectSelect.innerHTML = projectTable.map((p) => `<option value="${p.id}">${p.name}</option>`).join('')
+      }
+      let currentRiskProject = item?.projectId || ''
+      if (!projectTable.some((p) => p.id === currentRiskProject)) currentRiskProject = projectTable.length ? projectTable[0].id : ''
+      projectSelect.value = currentRiskProject
+      document.getElementById('riskName').value = item?.risk || ''
+      document.getElementById('riskImpact').value = item?.impact || '中'
+      document.getElementById('riskStatus').value = item?.status || '待解决'
+      document.getElementById('riskOwner').value = item?.owner || ''
+      document.getElementById('riskBlockedSince').value = item?.blockedSince || formatDateKey(new Date())
+      document.getElementById('riskModal').classList.remove('hidden')
+      document.getElementById('riskModal').classList.add('flex')
+    }
+
+    function closeRiskModal() {
+      document.getElementById('riskModal').classList.add('hidden')
+      document.getElementById('riskModal').classList.remove('flex')
+    }
+
+    function saveRiskModal() {
+      const risk = document.getElementById('riskName').value.trim()
+      if (!risk) { showToast('请填写风险描述'); return }
+      const projectId = document.getElementById('riskProject').value
+      const project = projectTable.find((p) => p.id === projectId)
+      const payload = {
+        risk,
+        projectId,
+        projectName: project ? project.name : '',
+        impact: document.getElementById('riskImpact').value,
+        status: document.getElementById('riskStatus').value,
+        owner: document.getElementById('riskOwner').value.trim(),
+        blockedSince: document.getElementById('riskBlockedSince').value
+      }
+      if (editingRiskId) {
+        riskTable = riskTable.map((item) => item.id === editingRiskId ? { ...item, ...payload, id: editingRiskId } : item)
+      } else {
+        riskTable.push({ ...payload, id: `risk-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` })
+      }
+      saveState()
+      closeRiskModal()
+      renderRisks()
+      logActivity(editingRiskId ? '编辑风险' : '添加风险', risk, project ? project.name : '')
+      showToast('风险已保存')
+    }
+
+    function deleteRisk(id) {
+      if (!confirm('确认删除该风险？')) return
+      const item = riskTable.find((r) => r.id === id)
+      riskTable = riskTable.filter((r) => r.id !== id)
+      saveState()
+      renderRisks()
+      if (item) logActivity('删除风险', item.risk, item.projectName || '')
+      showToast('风险已删除')
+    }
+
+    // ============ 头部信息（随当前日期刷新） ============
+    function applySettings() {
+      document.title = settingsData.boardTitle || 'AI 项目进度看板'
+      document.getElementById('headerBoardTitle').textContent = settingsData.boardTitle
+      document.getElementById('headerDate').textContent = `${settingsData.currentDate} ${weekdayText(settingsData.currentDate)}`
+      const workdayNo = Math.min(6, (parseDateKey(settingsData.currentDate).getDay() + 6) % 7 + 1)
+      document.getElementById('headerWorkday').textContent = `本周第 ${workdayNo} 个工作日`
+    }
+
+    // ============ 渲染 / 事件 ============
+    function renderAll() {
+      renderMetrics()
+      renderProjects()
+      renderDailyLog()
+      renderRisks()
+      applySettings()
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div')
+      toast.className = 'fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-lg bg-gray-900 px-4 py-2 text-sm text-white shadow-lg'
+      toast.textContent = message
+      document.body.appendChild(toast)
+      setTimeout(() => toast.remove(), 2200)
+    }
+
+    // ============ 操作日志 / 操作权限 ============
+    const EDIT_ROLES = ['boss', '管理员', 'admin']
+
+    function getRole() {
+      try { return localStorage.getItem('auth_role') || '' } catch { return '' }
+    }
+
+    function canEditProjects() {
+      return EDIT_ROLES.includes(getRole())
+    }
+
+    function getOperator() {
+      try {
+        return localStorage.getItem('auth_real_name') || localStorage.getItem('auth_username') || ''
+      } catch { return '' }
+    }
+
+    function logActivity(action, target, detail) {
+      try {
+        fetch(`${BOARD_API_URL}/activity?board_key=default`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, target, detail, operator: getOperator() })
+        }).catch(() => {})
+      } catch { }
+    }
+
+    function initEvents() {
+      document.getElementById('newProjectBtn').addEventListener('click', () => openProjectModal())
+      document.getElementById('projectStatusTabs').addEventListener('click', (e) => {
+        const tab = e.target.closest('.status-tab')
+        if (!tab || tab.dataset.status === activeStatusTab) return
+        activeStatusTab = tab.dataset.status
+        renderStatusTabs()
+        renderProjects()
+      })
+      document.getElementById('projectModalClose').addEventListener('click', closeProjectModal)
+      document.getElementById('projectModalCancel').addEventListener('click', closeProjectModal)
+      document.getElementById('projectModalSave').addEventListener('click', saveProjectModal)
+      document.getElementById('projectModal').addEventListener('click', (e) => { if (e.target === document.getElementById('projectModal')) closeProjectModal() })
+      document.getElementById('projectsGrid').addEventListener('click', (e) => {
+        const btn = e.target.closest('.project-op')
+        if (btn) {
+          const project = projectTable.find((p) => p.id === btn.dataset.id)
+          if (btn.dataset.action === 'edit' && project) openProjectModal(project)
+          if (btn.dataset.action === 'delete' && project) deleteProject(project.id)
+          if (btn.dataset.action === 'records' && project) openProjectDetail(project)
+          return
+        }
+        const card = e.target.closest('.project-card')
+        if (card) {
+          const project = projectTable.find((p) => p.id === card.dataset.id)
+          if (project) openProjectDetail(project)
+        }
+      })
+      document.getElementById('projectDetailClose').addEventListener('click', closeProjectDetail)
+      document.getElementById('projectDetailCancel').addEventListener('click', closeProjectDetail)
+
+      document.getElementById('saveDailyLogBtn').addEventListener('click', saveOneDailyLog)
+      document.getElementById('addDailyLogBtn').addEventListener('click', () => {
+        if (document.getElementById('dailyLogEditor').classList.contains('hidden')) openDailyLogEditor('')
+        else closeDailyLogEditor()
+      })
+      document.getElementById('dailyLogCancel').addEventListener('click', () => closeDailyLogEditor())
+      document.getElementById('dailyLogList').addEventListener('click', (e) => {
+        const btn = e.target.closest('.log-op')
+        if (!btn) return
+        if (btn.dataset.action === 'edit-log') openDailyLogEditor(btn.dataset.project)
+        if (btn.dataset.action === 'delete-log') deleteDailyLogEntry(btn.dataset.project)
+      })
+      document.getElementById('dailyLogPrev').addEventListener('click', () => navigateLog(-1))
+      document.getElementById('dailyLogNext').addEventListener('click', () => navigateLog(1))
+      document.getElementById('dailyLogToday').addEventListener('click', () => { viewLog = null; viewLogDate = settingsData.currentDate; renderDailyLog() })
+
+      document.getElementById('newRiskBtn').addEventListener('click', () => openRiskModal())
+      document.getElementById('riskModalClose').addEventListener('click', closeRiskModal)
+      document.getElementById('riskModalCancel').addEventListener('click', closeRiskModal)
+      document.getElementById('riskModalSave').addEventListener('click', saveRiskModal)
+      document.getElementById('riskModal').addEventListener('click', (e) => { if (e.target === document.getElementById('riskModal')) closeRiskModal() })
+      document.getElementById('risksTableBody').addEventListener('click', (e) => {
+        const btn = e.target.closest('.risk-op')
+        if (!btn) return
+        const item = riskTable.find((r) => r.id === btn.dataset.id)
+        if (btn.dataset.action === 'edit' && item) openRiskModal(item)
+        if (btn.dataset.action === 'delete' && item) deleteRisk(item.id)
+      })
+    }
+
+    async function init() {
+      await loadState()
+      renderAll()
+      initEvents()
+      document.getElementById('boardMain').removeAttribute('aria-busy')
+    }
+    init()
+  </script>
+</body>
+</html>

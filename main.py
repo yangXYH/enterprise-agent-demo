@@ -5950,7 +5950,18 @@ except Exception as _mcp_exc:  # noqa: BLE001
 # Serve built Vue SPA (handles client-side routing + login.html)
 # MUST be registered AFTER all API routes, otherwise the catch-all {path:path}
 # will intercept /api/* and return index.html for every request.
-_FRONTEND_DIST = Path(__file__).parent / "frontend" / "dist"
+@app.get("/api/demo/status", include_in_schema=False)
+def demo_runtime_status():
+    if os.getenv("APP_ENV") != "demo":
+        raise HTTPException(status_code=404, detail="Not Found")
+    with _get_mysql_engine().connect() as connection:
+        marker = connection.execute(text("SELECT meta_value FROM demo_runtime_meta WHERE meta_key='owner'")).scalar()
+    return {"mode": "full-application", "synthetic_data": True, "database": os.getenv("DB_NAME"),
+            "dataset_owned": marker == "enterprise-agent-demo-synthetic-v2",
+            "ai_configured": bool(os.getenv("OPERATING_AI_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY"))}
+
+
+_FRONTEND_DIST = Path(os.getenv("FRONTEND_DIST", str(Path(__file__).parent / "frontend" / "dist")))
 if _FRONTEND_DIST.exists():
     app.mount("/static", StaticFiles(directory=str(_FRONTEND_DIST / "assets"), check_dir=False), name="frontend-assets")
     @app.get("/{full_path:path}", include_in_schema=False)

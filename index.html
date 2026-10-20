@@ -1,32 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="企业 AI 工作台开源演示，使用完全虚构的测试数据，可离线打开。">
-  <title>Enterprise Agent · 企业 AI 工作台</title>
-  <link rel="icon" href="demo/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="demo/style.css">
-</head>
-<body>
-  <aside class="sidebar">
-    <a class="brand" href="#overview"><span class="brand-mark">E<span>·</span></span><span>Enterprise Agent<small>企业 AI 工作台</small></span></a>
-    <div class="workspace"><span class="workspace-icon">示</span><div>示例科技<small>面试演示工作空间</small></div><span class="badge">DEMO</span></div>
-    <p class="nav-caption">工作空间</p>
-    <nav id="navigation" aria-label="主要导航"></nav>
-    <div class="sidebar-bottom"><span class="status-dot"></span>离线演示 · 数据已就绪<p>Vue 3 / FastAPI 源码随仓库提供</p><a href="README.md">查看项目说明 ↗</a></div>
-  </aside>
-  <div class="shell">
-    <header class="topbar"><div class="breadcrumb">工作空间 <span>/</span> <strong id="breadcrumb">经营总览</strong></div><div class="top-actions"><span class="local-badge"><span class="status-dot"></span>本地测试环境</span><button id="theme-toggle" class="icon-button" aria-label="切换明暗主题">◐</button><span class="avatar">测</span></div></header>
-    <main>
-      <div class="demo-notice"><span>✦</span> 开源演示 · 全部数据为虚构测试数据，无需数据库或 API Key。<span class="notice-end">本地规则问答，无外部模型调用</span></div>
-      <section class="page-heading"><div><p class="eyebrow" id="eyebrow">BUSINESS OVERVIEW</p><h1 id="page-title">经营总览</h1><p id="page-description">把业务数据放在一起，让每一次决策都有依据。</p></div><div class="heading-actions"><select id="month-filter" aria-label="月份筛选"></select><button class="button" id="export-button">↓ 导出当前数据</button></div></section>
-      <div id="content" aria-live="polite"></div>
-      <footer>Enterprise Agent <span>·</span> 开源面试演示 <span>·</span> 所有数字来自可复现的测试数据生成器</footer>
-    </main>
-  </div>
-  <div id="toast" role="status"></div>
-  <script src="demo/data.js"></script>
-  <script src="demo/app.js"></script>
-</body>
-</html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enterprise Agent 启动说明</title>
+<style>body{font:17px/1.8 system-ui,sans-serif;max-width:760px;margin:12vh auto;padding:24px;color:#17233b}code{background:#eef2f7;padding:4px 9px;border-radius:5px}a{color:#2463d4}</style>
+<h1>启动完整企业 AI 工作台</h1>
+<p>项目运行原来的 Vue 界面、FastAPI 后端和 MySQL 数据库。启动时自动生成虚构测试数据，保留原业务功能与权限。</p>
+<p>安装 Docker Desktop 后，在项目目录执行 <code>docker compose up --build</code>。Windows 也可双击 <code>start-demo.cmd</code>。</p>
+<p>服务启动后：<a href="http://127.0.0.1:4173">打开完整应用</a>，登录 <code>demo_admin</code> / <code>Demo@2026</code>。</p>
+<p>本文件仅为启动说明。详细环境配置与模块说明见仓库 README.md。</p></html>

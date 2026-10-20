@@ -78,7 +78,7 @@ CREATE TABLE `sys_user` (
   `real_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '员工姓名',
   `department` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '所属部门',
   `job_title` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '岗位职位',
-  `role` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '核心角色: admin(阿灿)/boss(老板)/operator(运营)/designer(内容美工)/hr(人力行政)/finance(财务)/supply(供应链)/user(普通员工)',
+  `role` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '核心角色: admin(管理员)/boss(老板)/operator(运营)/designer(内容美工)/hr(人力行政)/finance(财务)/supply(供应链)/user(普通员工)',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '系统入库时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username` (`username`)

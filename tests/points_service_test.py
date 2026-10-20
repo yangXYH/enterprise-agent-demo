@@ -50,6 +50,8 @@ class PointsServiceTest(unittest.TestCase):
         with self.engine.begin() as conn:
             conn.execute(text("UPDATE points_record SET created_at = :date WHERE employee_id = 1"),
                          {"date": dt.datetime(2026, 8, 31, 23, 59, 59)})
+            conn.execute(text("UPDATE points_record SET created_at = :date WHERE employee_id = 2"),
+                         {"date": dt.datetime(2026, 9, 10, 12, 0, 0)})
         points.save_rule({"id": rule["id"], "name": "协作新版", "points": 20}, self.engine)
         rank = points.leaderboard(month="2026-09", sort="month", engine=self.engine)
         self.assertEqual([(r["name"], r["total_points"], r["month_points"]) for r in rank["items"]],
