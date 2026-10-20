@@ -6,9 +6,10 @@ frontend/dist
 demo/frontend
 outputs
 uploads
-.env
-.env.demo
-.env.test
-.env.production
+.env*
+!.env*.example
+data/*
+!data/shop_report.json
+!data/README.md
 *.log
 .verify

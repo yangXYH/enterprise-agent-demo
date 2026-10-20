@@ -88,10 +88,18 @@ def seed_people(engine, today, put, count):
         put(engine, name, rows)
     put(engine, "hr_job_template", [{"job_name": title, "job_info": f"【虚构测试岗位】{title}，用于面试流程功能演示。"} for title in ["运营专员", "后端开发工程师", "客服主管", "采购专员", "数据分析师"]])
     put(engine, "interview_register", [{"inviter": "测试人事", "name": f"测试候选人{i:02d}", "position": ["运营专员", "后端开发工程师", "客服主管"][i % 3],
-                                      "phone": f"TEST-APPLICANT-{i:02d}", "first_interview_date": (today + timedelta(days=i % 8 - 3)).isoformat(),
+                                      "phone": f"TEST-APPLICANT-{i:02d}", "first_interview_date": (today - timedelta(days=i + 12) if i % 4 == 3 else today + timedelta(days=i % 8 - 3)).isoformat(),
                                       "first_interview_time": "14:00", "is_present": ["是", "否", "待定"][i % 3],
-                                      "interview_status": ["待面试", "初试通过", "复试通过", "已入职"][i % 4], "hire_status": ["待定", "已录用", "未录用"][i % 3],
+                                      "interview_status": ["", "面试通过（待入职）", "面试未通过", "面试通过（已入职）"][i % 4], "hire_status": ["待定", "已录用", "未录用"][i % 3],
+                                      "join_date": (today - timedelta(days=i + 5)).isoformat() if i % 4 == 3 else "",
                                       "remark": "合成测试候选人记录", "archived": 0} for i in range(1, 25)])
+    # Upgrade only the generator's earlier fixture values; retain user-edited records.
+    with engine.begin() as connection:
+        for i in range(1, 25):
+            connection.execute(text("UPDATE interview_register SET interview_status=:status,first_interview_date=:first,join_date=:joined WHERE name=:name AND remark='合成测试候选人记录' AND interview_status IN ('待面试','初试通过','复试通过','已入职')"),
+                               {"name": f"测试候选人{i:02d}", "status": ["", "面试通过（待入职）", "面试未通过", "面试通过（已入职）"][i % 4],
+                                "first": (today - timedelta(days=i + 12) if i % 4 == 3 else today + timedelta(days=i % 8 - 3)).isoformat(),
+                                "joined": (today - timedelta(days=i + 5)).isoformat() if i % 4 == 3 else ""})
     put(engine, "resume_history", [{"job_title": "后端开发工程师", "jd_text": "测试岗位：Python、SQL、FastAPI、工程化实践。", "filename": f"test-resume-{i:02d}.txt",
                                   "name": f"测试候选人{i:02d}", "education": "测试示范大学 / 计算机 / 本科", "skills": json.dumps(["Python", "FastAPI", "SQL"], ensure_ascii=False),
                                   "experience": "合成履历：开发测试电商平台并设计查询接口。", "match_score": 60 + i % 5 * 8,

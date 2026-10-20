@@ -43,6 +43,8 @@ def main():
     report = client.get("/api/shop-report").json()
     assert report["source"]["synthetic"] and len(report["shops"]) == 9
     assert client.get("/api/hr/roster/list", params={"page_size": 100}).json()["total"] >= 72
+    recruitment = client.get("/api/hr/recruit/dashboard").json()["kpis"]
+    assert recruitment["pending_followup"] > 0 and recruitment["offer_rate"] > 0 and recruitment["onboard_rate"] > 0
     assert not failed
     # Exercise the real write services, reread through new HTTP requests, then clean
     # up only the test records just created in this explicitly owned demo database.
@@ -82,8 +84,24 @@ def main():
     workbook = client.get("/static/demo-fixtures/customer-service-demo.xlsx")
     workbook.raise_for_status()
     assert workbook.content.startswith(b"PK")
+    reports = client.get("/api/product-quality-reports").json()["reports"]
+    assert reports
+    pdf = client.get(f"/api/product-quality-reports/{reports[0]['id']}/file")
+    pdf.raise_for_status()
+    from pypdf import PdfReader
+    assert "SYNTHETIC" in PdfReader(BytesIO(pdf.content)).pages[0].extract_text()
+    tree = client.get("/api/ecom-knowledge/tree", params={"library": "product"}).json()["tree"]
+    def files(nodes):
+        for node in nodes:
+            if node["type"] == "file":
+                yield node["path"]
+            yield from files(node.get("children", []))
+    knowledge_path = next(files(tree))
+    preview = client.get("/api/ecom-knowledge/preview", params={"library": "product", "path": knowledge_path})
+    preview.raise_for_status()
+    assert "测试" in preview.text
     assert not client.get("/api/auth/session").json().get("password")
-    print("Original HR create/edit/read/export/delete and design create/edit/trash/restore passed; image and customer-service workbook served.")
+    print("Original HR create/edit/read/export/delete and design create/edit/trash/restore passed; image, PDF, knowledge preview and customer-service workbook served.")
     print("Full application API acceptance passed with real service/database results.")
 
 

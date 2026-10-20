@@ -19,7 +19,7 @@ from sqlalchemy.sql.sqltypes import Date, DateTime, Integer, Numeric, Float, Boo
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 OWNER = "enterprise-agent-demo-synthetic-v2"
-VERSION = "full-application-v5"
+VERSION = "full-application-v6"
 TODAY = date.fromisoformat(os.getenv("DEMO_DATE", date.today().isoformat()))
 
 
