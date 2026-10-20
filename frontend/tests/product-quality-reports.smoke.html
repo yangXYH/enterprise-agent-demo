@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>产品质检报告 · 挂载回归检查</title></head>
+<body><div id="app"></div><pre id="render-errors" hidden></pre><script type="module">
+import { createApp, h, KeepAlive, ref } from 'vue';
+import 'element-plus/dist/index.css';
+import '/src/style.css';
+import Reports from '/src/components/ProductQualityReports.vue';
+// Match main.ts: components must mount without a global Element Plus plugin.
+// Fixture requests stay in this document; application authentication is unchanged.
+const reports = [
+  { id: '1'.repeat(64), filename: 'TX509001-测试报告.pdf', models: ['TX509001'], categories: ['常规检测'], sources: ['测试资料'], report_number: 'TEST001', report_date: '2026-08-13', page_count: 1, file_size: 1024, created_at: '2026-10-09T00:00:00' },
+  { id: '2'.repeat(64), filename: 'BY409003-测试报告.pdf', models: ['BY409003'], categories: ['抗菌检测'], sources: ['测试资料'], report_number: 'TEST002', report_date: '2026-07-06', page_count: 1, file_size: 2048, created_at: '2026-10-09T00:00:00' },
+];
+const originalFetch = window.fetch.bind(window);
+window.fetch = async (input, options) => {
+  if (typeof input !== 'string' || !input.startsWith('/api/product-quality-reports')) return originalFetch(input, options);
+  if (input.includes('/file')) return new Response(JSON.stringify({ detail: '测试报告无原件' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+  const params = new URL(input, location.origin).searchParams;
+  const keyword = (params.get('keyword') || '').replace(/[\W_]+/g, '').toLowerCase();
+  const category = params.get('category');
+  const filtered = reports.filter(r => (!keyword || (r.filename + r.models.join('')).replace(/[\W_]+/g, '').toLowerCase().includes(keyword)) && (!category || r.categories.includes(category)));
+  return new Response(JSON.stringify({ reports: filtered, total: filtered.length, categories: ['常规检测', '抗菌检测'], can_upload: true, summary: { reports: 2, models: 2, categories: 2 } }), { headers: { 'Content-Type': 'application/json' } });
+};
+const app = createApp({
+  setup() {
+    const active = ref(true);
+    return () => h('div', [
+      h('nav', { style: 'padding:12px;display:flex;gap:12px' }, [
+        h('button', { onClick: () => { active.value = false; } }, '其他页签'),
+        h('button', { onClick: () => { active.value = true; } }, '产品质检报告页签'),
+      ]),
+      h(KeepAlive, null, { default: () => active.value ? h(Reports) : h('p', { style: 'padding:26px' }, '其他页面已打开') }),
+    ]);
+  },
+});
+app.config.errorHandler = (error) => {
+  const output = document.getElementById('render-errors');
+  output.hidden = false;
+  output.textContent += String(error) + '\n';
+  console.error(error);
+};
+app.mount('#app');
+</script></body></html>

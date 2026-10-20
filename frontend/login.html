@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#102c24" />
+  <title>示例企业 AI 工作台 - 登录</title>
+  <link rel="icon" type="image/svg+xml" href="/demo-logo.svg" />
+  <script>
+    try {
+      if (localStorage.getItem('user_theme') === 'dark') document.documentElement.classList.add('dark-theme');
+    } catch (_) {}
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      color-scheme: light;
+      --brand: #167a5b;
+      --brand-dark: #102c24;
+      --brand-hover: #11684d;
+      --text: #18231f;
+      --text-secondary: #66736e;
+      --text-muted: #9aa5a1;
+      --border: #dce3e0;
+      --surface: #ffffff;
+      --surface-soft: #f7f9f8;
+      --danger: #c83f55;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100%;
+      min-width: 320px;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    button, input { font: inherit; }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(22, 122, 91, .14);
+      outline-offset: 2px;
+    }
+
+    .login-page {
+      min-height: 100vh;
+      display: block;
+    }
+
+    /* 登录区 */
+    .form-panel {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 24px;
+      background: #fbfcfb;
+    }
+
+    .login-card {
+      width: min(100%, 400px);
+    }
+
+    .login-header {
+      margin-bottom: 38px;
+    }
+
+    .login-header h2 {
+      margin-bottom: 10px;
+      font-size: 32px;
+      line-height: 1.2;
+      font-weight: 650;
+      letter-spacing: -.035em;
+    }
+
+    .login-header p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block;
+      margin-bottom: 9px;
+      color: #34413c;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .form-input-wrap { position: relative; }
+
+    .input-icon {
+      width: 19px;
+      height: 19px;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      display: grid;
+      place-items: center;
+      color: #91a09a;
+      transform: translateY(-50%);
+      pointer-events: none;
+      transition: color .18s ease;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 48px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      color: var(--text);
+      background: var(--surface-soft);
+      font-size: 14px;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .form-input::placeholder { color: #a5afab; }
+    .form-input:hover { border-color: #c9d3cf; }
+
+    .form-input:focus {
+      border-color: var(--brand);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(22, 122, 91, .09);
+    }
+
+    .form-input.is-invalid {
+      border-color: #df7b8b;
+      box-shadow: 0 0 0 3px rgba(200, 63, 85, .07);
+    }
+
+    .form-input-wrap:focus-within .input-icon { color: var(--brand); }
+
+    .pwd-toggle {
+      width: 36px;
+      height: 36px;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 8px;
+      color: #91a09a;
+      background: transparent;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .pwd-toggle:hover { color: var(--brand); background: #eef4f1; }
+
+    .error-msg {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: -2px 0 18px;
+      padding: 11px 13px;
+      border: 1px solid #f0c4cb;
+      border-radius: 9px;
+      color: var(--danger);
+      background: #fff6f7;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .error-msg svg { flex: 0 0 auto; margin-top: 2px; }
+
+    .btn-submit {
+      width: 100%;
+      height: 52px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 8px 20px rgba(22, 122, 91, .16);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: .04em;
+      transition: background .18s ease, transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--brand-hover);
+      box-shadow: 0 10px 24px rgba(22, 122, 91, .22);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: .68; cursor: wait; }
+
+    .btn-arrow { display: grid; place-items: center; }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, .3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    .page-footer {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 30px;
+      color: #b1bab6;
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-align: center;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 900px) {
+      .form-panel { padding: 48px 24px; }
+    }
+
+    @media (max-width: 720px) {
+      .form-panel {
+        min-height: 100vh;
+        align-items: center;
+        padding: 60px 22px 80px;
+      }
+
+      .login-card { margin: 0 auto; }
+
+      .page-footer { left: 22px; right: 22px; text-align: center; }
+    }
+
+    @media (max-height: 680px) and (min-width: 721px) {
+      .form-panel { padding-top: 36px; padding-bottom: 48px; }
+      .login-header { margin-bottom: 28px; }
+      .form-group { margin-bottom: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    html.dark-theme {
+      color-scheme: dark;
+      --brand: #168263;
+      --brand-hover: #219c77;
+      --text: #f1f5f9;
+      --text-secondary: #a6b7af;
+      --text-muted: #8a9e94;
+      --border: #3b554a;
+      --surface: #111e19;
+      --surface-soft: #1b2a23;
+      --danger: #ff9aaa;
+    }
+    .dark-theme .form-panel { background: var(--surface); }
+    .dark-theme .form-label { color: var(--text); }
+    .dark-theme .input-icon,
+    .dark-theme .pwd-toggle { color: var(--text-muted); }
+    .dark-theme .form-input::placeholder { color: var(--text-muted); }
+    .dark-theme .form-input:hover { border-color: #6a8378; }
+    .dark-theme .form-input:focus { background: var(--surface-soft); }
+    .dark-theme .pwd-toggle:hover { background: #294237; }
+    .dark-theme .error-msg { background: #3b2029; border-color: #774452; }
+    .dark-theme .page-footer { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <main class="login-page">
+    <section class="form-panel" aria-label="账号登录">
+      <div class="login-card">
+        <header class="login-header">
+          <h2>欢迎登录示例科技经营平台</h2>
+          <p>请输入企业账号信息</p>
+        </header>
+
+        <form id="loginForm" autocomplete="off" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="username">工号 / 用户名</label>
+            <div class="form-input-wrap">
+              <span class="input-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="3.5" />
+                  <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+                </svg>
+              </span>
+              <input id="username" class="form-input" type="text" placeholder="请输入工号或用户名" autocomplete="username" spellcheck="false" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">登录密码</label>
+            <div class="form-input-wrap">
+              <span class="input-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="10" width="16" height="11" rx="3" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                </svg>
+              </span>
+              <input id="password" class="form-input" type="password" placeholder="请输入登录密码" autocomplete="current-password" />
+              <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="显示密码" aria-pressed="false">
+                <svg id="eyeOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" />
+                  <circle cx="12" cy="12" r="2.5" />
+                </svg>
+                <svg id="eyeClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                  <path d="m3 3 18 18M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 5.2A10 10 0 0 1 12 5c6.5 0 10 7 10 7a16 16 0 0 1-2 2.8M6.5 6.5C3.6 8.3 2 12 2 12s3.5 7 10 7c1.4 0 2.6-.3 3.7-.7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="errorBox" class="error-msg" role="alert" aria-live="polite" style="display:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8v5M12 16.5v.1" />
+            </svg>
+            <span id="errorText"></span>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span id="btnText">登录</span>
+            <span id="btnArrow" class="btn-arrow" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M14 7l5 5-5 5" />
+              </svg>
+            </span>
+            <span id="btnSpinner" class="spinner" style="display:none" aria-hidden="true"></span>
+          </button>
+        </form>
+
+      </div>
+      <footer class="page-footer">示例企业 AI 工作台</footer>
+    </section>
+  </main>
+
+  <script>
+    const $ = (selector) => document.querySelector(selector)
+    const pwdInput = $('#password')
+    const pwdToggle = $('#pwdToggle')
+    const eyeOpen = $('#eyeOpen')
+    const eyeClosed = $('#eyeClosed')
+
+    pwdToggle.addEventListener('click', () => {
+      const shouldShow = pwdInput.type === 'password'
+      pwdInput.type = shouldShow ? 'text' : 'password'
+      eyeOpen.style.display = shouldShow ? 'none' : 'block'
+      eyeClosed.style.display = shouldShow ? 'block' : 'none'
+      pwdToggle.setAttribute('aria-label', shouldShow ? '隐藏密码' : '显示密码')
+      pwdToggle.setAttribute('aria-pressed', String(shouldShow))
+    })
+
+    document.querySelectorAll('.form-input').forEach((input) => {
+      input.addEventListener('input', () => {
+        input.classList.remove('is-invalid')
+        hideError()
+      })
+    })
+
+    function showError(message, input) {
+      $('#errorText').textContent = message
+      $('#errorBox').style.display = 'flex'
+      if (input) {
+        input.classList.add('is-invalid')
+        input.focus()
+      }
+    }
+
+    function hideError() {
+      $('#errorBox').style.display = 'none'
+    }
+
+    function setLoading(isLoading) {
+      $('#submitBtn').disabled = isLoading
+      $('#btnText').textContent = isLoading ? '登录中' : '登录'
+      $('#btnArrow').style.display = isLoading ? 'none' : 'grid'
+      $('#btnSpinner').style.display = isLoading ? 'block' : 'none'
+    }
+
+    $('#loginForm').addEventListener('submit', async (event) => {
+      event.preventDefault()
+      hideError()
+
+      const usernameInput = $('#username')
+      const passwordInput = $('#password')
+      const username = usernameInput.value.trim()
+      const password = passwordInput.value
+
+      if (!username) { showError('请输入工号或用户名', usernameInput); return }
+      if (!password) { showError('请输入登录密码', passwordInput); return }
+
+      setLoading(true)
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        })
+        const data = await response.json()
+
+        if (data.success) {
+          localStorage.setItem('auth_real_name', data.user.real_name)
+          localStorage.setItem('auth_role', data.user.role)
+          localStorage.setItem('auth_username', username)
+          localStorage.setItem('auth_job_title', data.user.job_title || '')
+          localStorage.setItem('auth_department', data.user.department)
+          localStorage.setItem('auth_dept_code', data.user.dept_code || '')
+          localStorage.setItem('auth_login_time', String(Date.now()))
+          try { sessionStorage.setItem('boss_active_menu_v3', 'operating-analysis') } catch (error) {}
+          window.location.href = '/'
+        } else {
+          showError(data.message || '登录失败，请检查账号和密码')
+        }
+      } catch (error) {
+        showError('网络连接异常，请稍后重试')
+      } finally {
+        setLoading(false)
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+/* ═══════════════════════════════════════════════════════════════
+   CSS Custom Properties — Light & Dark Theme System
+   Toggle: add/remove "dark-theme" class on <html>
+   Persistence: localStorage key "user_theme"
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Light theme (default) ─────────────────────────────────────── */
+:root {
+  /* App shell */
+  --app-bg:           #f8fafc;
+  --app-text:         #1f2937;
+  --app-surface:      #ffffff;
+  --app-surface-2:    #f8fafc;
+
+  /* Typography */
+  --text-primary:     #1f2937;
+  --text-secondary:   #64748b;
+  --text-heading:     #0f172a;
+  --text-muted:       #94a3b8;
+  --text-accent:      #0f766e;
+
+  /* Brand primary — teal */
+  --primary:          #0f766e;
+  --primary-light:    #0d9488;
+  --primary-hover:    #115e59;
+  --primary-surface:  rgba(15, 118, 110, 0.06);
+  --primary-surface-2:rgba(15, 118, 110, 0.08);
+
+  /* Accent — bright teal */
+  --accent:          #5eead4;
+  --accent-surface:  rgba(94, 234, 212, 0.08);
+  --accent-surface-2:rgba(94, 234, 212, 0.12);
+
+  /* Borders */
+  --border-color:     rgba(148, 163, 184, 0.24);
+  --border-subtle:    rgba(148, 163, 184, 0.18);
+  --border-focus:     #0f766e;
+
+  /* Shadows */
+  --shadow-sm:        0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md:        0 4px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg:        0 16px 42px rgba(15, 23, 42, 0.10);
+  --shadow-primary:   rgba(15, 118, 110, 0.25);
+
+  /* Sidebar (always dark) */
+  --sidebar-bg:      #1e293b;
+  --sidebar-text:    #b7c4d6;
+  --sidebar-hover:   rgba(255, 255, 255, 0.06);
+  --sidebar-active:  #0f766e;
+  --sidebar-border:  rgba(203, 213, 225, 0.12);
+
+  /* Table */
+  --table-header-bg: #f8fafc;
+  --table-header-text:#475569;
+  --table-stripe:    #fafbfc;
+
+  /* Inputs */
+  --input-bg:        #ffffff;
+  --input-border:    #e2e8f0;
+  --input-placeholder:#94a3b8;
+
+  /* Overlay / backdrop */
+  --overlay-bg:      rgba(15, 23, 42, 0.5);
+
+  /* Notification dot */
+  --dot-live:        #10b981;
+  --dot-idle:        #475569;
+
+  font-family: var(--app-font);
+  color: var(--text-primary);
+  background: var(--app-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Dark theme ────────────────────────────────────────────────── */
+html.dark-theme {
+  color-scheme: dark;
+  /* App shell */
+  --app-bg:           #0f172a;
+  --app-text:         #e2e8f0;
+  --app-surface:      #1e293b;
+  --app-surface-2:     #1a2332;
+
+  /* Typography */
+  --text-primary:     #f1f5f9;
+  --text-secondary:   #94a3b8;
+  --text-heading:     #f8fafc;
+  --text-muted:       #64748b;
+  --text-accent:      #5eead4;
+
+  /* Brand primary — teal stays same, accent brightens */
+  --primary:          #0f766e;
+  --primary-light:    #0d9488;
+  --primary-hover:    #14b8a6;
+  --primary-surface:  rgba(94, 234, 212, 0.08);
+  --primary-surface-2:rgba(94, 234, 212, 0.12);
+
+  /* Accent */
+  --accent:           #5eead4;
+  --accent-surface:  rgba(94, 234, 212, 0.08);
+  --accent-surface-2:rgba(94, 234, 212, 0.14);
+
+  /* Borders */
+  --border-color:     rgba(255, 255, 255, 0.08);
+  --border-subtle:    rgba(255, 255, 255, 0.06);
+  --border-focus:     #5eead4;
+
+  /* Shadows */
+  --shadow-sm:        0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-md:        0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg:        0 16px 42px rgba(0, 0, 0, 0.45);
+  --shadow-primary:   rgba(15, 118, 110, 0.35);
+
+  /* Table */
+  --table-header-bg: rgba(94, 234, 212, 0.06);
+  --table-header-text:#5eead4;
+  --table-stripe:    rgba(255, 255, 255, 0.02);
+
+  /* Inputs */
+  --input-bg:        rgba(255, 255, 255, 0.05);
+  --input-border:    rgba(255, 255, 255, 0.10);
+  --input-placeholder:#94a3b8;
+
+  /* Element Plus controls and body-mounted popovers share the page palette. */
+  --el-color-primary: #2dd4bf;
+  --el-color-primary-light-3: #22ad9e;
+  --el-color-primary-light-5: #1b827b;
+  --el-color-primary-light-7: #185c59;
+  --el-color-primary-light-8: #174b4a;
+  --el-color-primary-light-9: #17383b;
+  --el-bg-color-page: #0f172a;
+  --el-bg-color: #1e293b;
+  --el-bg-color-overlay: #243349;
+  --el-fill-color-blank: #1e293b;
+  --el-fill-color: #334155;
+  --el-fill-color-light: #29384d;
+  --el-fill-color-lighter: #243349;
+  --el-fill-color-extra-light: #202f43;
+  --el-text-color-primary: #f1f5f9;
+  --el-text-color-regular: #cbd5e1;
+  --el-text-color-secondary: #94a3b8;
+  --el-text-color-placeholder: #94a3b8;
+  --el-border-color: #475569;
+  --el-border-color-light: #3b4d63;
+  --el-border-color-lighter: #334155;
+  --el-border-color-extra-light: #2c3b50;
+
+  /* Overlay / backdrop */
+  --overlay-bg:      rgba(0, 0, 0, 0.7);
+
+  /* Notification dot */
+  --dot-live:        #5eead4;
+  --dot-idle:        #475569;
+}
+
+.dark-theme .el-table,
+.dark-theme .el-table__expanded-cell,
+.dark-theme .el-table tr,
+.dark-theme .el-table th.el-table__cell,
+.dark-theme .el-table td.el-table__cell {
+  background-color: var(--el-bg-color);
+  color: var(--el-text-color-primary);
+}
+
+.dark-theme .el-table__body tr:hover > td.el-table__cell {
+  background-color: var(--el-fill-color-light);
+}
+
+/* ── Global reset ─────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+body {
+  background: var(--app-bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+#app {
+  width: 100%;
+}
+
+/* ── Theme switch transition ──────────────────────────────────────
+   Applied to elements that should smoothly transition between themes.
+   Use: transition: background-color 0.3s ease, color 0.3s ease;
+═══════════════════════════════════════════════════════════════════ */
+.theme-transition,
+.theme-transition * {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    fill 0.3s ease !important;
+}
+
+/* SKU return data has its own fixed light palette; keep it legible in dark mode. */
+html.dark-theme .sku-return-page {
+  --el-color-primary: #93b4ff;
+  --el-color-primary-light-3: #7197e0;
+  --el-color-primary-light-5: #526fb0;
+  --el-color-primary-light-7: #354c78;
+  --el-color-primary-light-8: #293d62;
+  --el-color-primary-light-9: #243451;
+  --el-text-color-primary: #f1f5f9;
+  --el-border-color: #475569;
+  color: var(--text-primary);
+  background: var(--app-bg);
+}
+html.dark-theme .sku-return-page :is(.filter-card, .chart-card, .table-card, .quality-card, .empty-card, .kpi) {
+  background: var(--app-surface);
+  border-color: var(--border-color);
+}
+html.dark-theme .sku-return-page :is(.filter-footer, .analysis-nav, .month-table td, .month-table-footer) {
+  border-color: var(--border-color);
+}
+html.dark-theme .sku-return-page :is(.eyebrow, .subtitle, .update-time, .coverage-label, .calculation-note,
+  .query-status, .filter-field > span, .period-presets > span, .overview-heading h2 span,
+  .kpi-label, .kpi small, .chart-heading p, .chart-key, .trend-highlights > span,
+  .trend-highlights small, .chart-note, .mix-legend, .mix-legend small, .table-header p,
+  .table-hint, .table-footer > span, .quality-card p, .drawer-note, .dialog-note,
+  .quality-title span, .month-table-footer) { color: var(--text-secondary); }
+html.dark-theme .sku-return-page :is(.kpi-value strong, .chart-heading h3, .month-table td,
+  .month-table td:first-child, .month-table td strong, .quality-title strong,
+  .table-footer strong, .trend-highlights strong) { color: var(--text-primary); }
+html.dark-theme .sku-return-page :is(.page-symbol, .title-badge, .tab-count, .subtle-badge,
+  .kpi-icon, .rate-pill, .brand-label, .quality-list span, .preview) {
+  background: var(--app-surface-2);
+  border-color: var(--border-color);
+  color: #a9c4ff;
+}
+html.dark-theme .sku-return-page :is(.period-presets button:hover, .period-presets button.active,
+  .view-switch button.active) { background: #293d62; color: #b8cbff; }
+html.dark-theme .sku-return-page :is(.view-switch, .month-table th) { background: var(--app-surface-2); }
+html.dark-theme .sku-return-page :is(.month-table th, .view-switch button, .page-tabs .el-tabs__item) {
+  color: var(--text-secondary);
+}
+html.dark-theme .sku-return-page :is(.month-table tbody tr:hover, .page-tabs .el-tabs__item.is-active) {
+  color: #b8cbff;
+  background: var(--app-surface-2);
+}
+html.dark-theme .sku-return-page .filter-field :is(.el-select__wrapper, .el-input__wrapper) {
+  background: var(--app-surface-2);
+  box-shadow: 0 0 0 1px var(--border-color) inset;
+}
+html.dark-theme .sku-return-page .result-table {
+  --el-table-border-color: var(--border-color);
+  --el-table-header-bg-color: var(--app-surface-2);
+  --el-table-row-hover-bg-color: #293d62;
+  --el-table-text-color: var(--text-primary);
+  --el-table-header-text-color: var(--text-secondary);
+}

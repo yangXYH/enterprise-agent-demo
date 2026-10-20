@@ -1,0 +1,1467 @@
+{
+  "menus": [
+    {
+      "label": "公司首页",
+      "icon": "home",
+      "route": "home",
+      "children": [
+        {
+          "label": "AI 知识问答",
+          "route": "knowledge-qa"
+        },
+        {
+          "label": "AI 项目进度看板",
+          "route": "ai-project-board"
+        }
+      ]
+    },
+    {
+      "label": "数据洞察",
+      "icon": "bar-chart",
+      "children": [
+        {
+          "label": "经营总览",
+          "route": "insight"
+        },
+        {
+          "label": "趋势分析",
+          "route": "insight-trend"
+        },
+        {
+          "label": "品类分析",
+          "route": "insight-category"
+        },
+        {
+          "label": "品牌与商品",
+          "route": "insight-brand"
+        }
+      ]
+    },
+    {
+      "label": "设计部",
+      "icon": "palette",
+      "children": [
+        {
+          "label": "设计资料总览",
+          "route": "design-overview"
+        },
+        {
+          "label": "AI模特与场景案例",
+          "route": "design-models"
+        },
+        {
+          "label": "AI生图提示词库",
+          "route": "design-prompts"
+        },
+        {
+          "label": "生图前后对照",
+          "route": "design-comparisons"
+        },
+        {
+          "label": "视觉要素手册",
+          "route": "design-styles"
+        }
+      ]
+    },
+    {
+      "label": "客服部",
+      "icon": "headset",
+      "children": [
+        {
+          "label": "客服数据看板",
+          "route": "cs-audit"
+        },
+        {
+          "label": "售后质量分析",
+          "route": "after-sales-quality"
+        }
+      ]
+    },
+    {
+      "label": "运营部",
+      "icon": "megaphone",
+      "children": [
+        {
+          "label": "活动运营",
+          "route": "operation"
+        },
+        {
+          "label": "内容运营",
+          "route": "operation-content"
+        },
+        {
+          "label": "用户运营",
+          "route": "operation-user"
+        }
+      ]
+    },
+    {
+      "label": "供应链部",
+      "icon": "supply",
+      "children": [
+        {
+          "label": "商品库存看板",
+          "route": "jushuitan-dashboard"
+        },
+        {
+          "label": "进销商品看板",
+          "route": "inventory-product-dashboard"
+        }
+      ]
+    },
+    {
+      "label": "仓库部",
+      "icon": "warehouse",
+      "children": [
+        {
+          "label": "库存管理",
+          "route": "warehouse"
+        },
+        {
+          "label": "出入库记录",
+          "route": "warehouse-flow"
+        },
+        {
+          "label": "盘点管理",
+          "route": "warehouse-stock"
+        },
+        {
+          "label": "库存分析决策",
+          "route": "inventory-decision"
+        }
+      ]
+    },
+    {
+      "label": "主播",
+      "icon": "video",
+      "children": [
+        {
+          "label": "主播排期",
+          "route": "anchor"
+        },
+        {
+          "label": "直播数据",
+          "route": "anchor-live"
+        },
+        {
+          "label": "佣金结算",
+          "route": "anchor-commission"
+        }
+      ]
+    },
+    {
+      "label": "财务",
+      "icon": "wallet",
+      "children": [
+        {
+          "label": "销售对账",
+          "route": "finance"
+        },
+        {
+          "label": "费用报销",
+          "route": "finance-expense"
+        },
+        {
+          "label": "发票管理",
+          "route": "finance-invoice"
+        }
+      ]
+    },
+    {
+      "label": "人力资源",
+      "icon": "users",
+      "children": [
+        {
+          "label": "人事驾驶舱",
+          "route": "hr-driver"
+        },
+        {
+          "label": "人员花名册",
+          "route": "hr-roster"
+        },
+        {
+          "label": "招聘管理",
+          "route": "hr-recruit"
+        },
+        {
+          "label": "人力行政知识库",
+          "route": "hr-knowledge"
+        },
+        {
+          "label": "AI 智能简历筛选",
+          "route": "hr-filter"
+        }
+      ]
+    },
+    {
+      "label": "系统管理",
+      "icon": "setting",
+      "children": [
+        {
+          "label": "权限管理",
+          "route": "sys-permissions"
+        }
+      ]
+    },
+    {
+      "label": "积分系统",
+      "icon": "star",
+      "children": [
+        {
+          "label": "积分排行榜",
+          "route": "points"
+        },
+        {
+          "label": "积分规则",
+          "route": "points-rule"
+        },
+        {
+          "label": "积分明细",
+          "route": "points-log"
+        }
+      ]
+    }
+  ],
+  "kpis": {
+    "home": [
+      {
+        "label": "今日销售额",
+        "value": "328.6",
+        "unit": "万",
+        "hint": "较昨日 +12.4%",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "今日订单量",
+        "value": "12,840",
+        "unit": "单",
+        "hint": "较昨日 +8.1%",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "GMV（近30天）",
+        "value": "8,942",
+        "unit": "万",
+        "hint": "环比 +6.2%",
+        "trend": "up",
+        "color": "purple"
+      },
+      {
+        "label": "退款率",
+        "value": "2.3",
+        "unit": "%",
+        "hint": "较上周 -0.4%",
+        "trend": "down",
+        "color": "orange"
+      }
+    ],
+    "insight": [
+      {
+        "label": "总销售额",
+        "value": "8,942",
+        "unit": "万",
+        "hint": "同比 +15.3%",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "客单价",
+        "value": "396",
+        "unit": "元",
+        "hint": "环比 +3.2%",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "转化率",
+        "value": "4.8",
+        "unit": "%",
+        "hint": "较上周 +0.6%",
+        "trend": "up",
+        "color": "purple"
+      },
+      {
+        "label": "复购率",
+        "value": "42.1",
+        "unit": "%",
+        "hint": "环比 +1.8%",
+        "trend": "up",
+        "color": "orange"
+      }
+    ],
+    "support": [
+      {
+        "label": "今日工单",
+        "value": "186",
+        "unit": "件",
+        "hint": "较昨日 +15",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "待处理",
+        "value": "27",
+        "unit": "件",
+        "hint": "超时 5 件",
+        "trend": "down",
+        "color": "orange"
+      },
+      {
+        "label": "平均响应",
+        "value": "1.8",
+        "unit": "分钟",
+        "hint": "目标 ≤2 分钟",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "满意度",
+        "value": "96.2",
+        "unit": "%",
+        "hint": "较上周 +0.9%",
+        "trend": "up",
+        "color": "purple"
+      }
+    ],
+    "operation": [
+      {
+        "label": "进行中活动",
+        "value": "8",
+        "unit": "个",
+        "hint": "本周上线 3 个",
+        "trend": "flat",
+        "color": "blue"
+      },
+      {
+        "label": "活动GMV",
+        "value": "1,204",
+        "unit": "万",
+        "hint": "占总 GMV 13%",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "优惠券核销",
+        "value": "3.6",
+        "unit": "万张",
+        "hint": "核销率 31%",
+        "trend": "up",
+        "color": "orange"
+      },
+      {
+        "label": "新增关注",
+        "value": "18,420",
+        "unit": "人",
+        "hint": "较上周 +9%",
+        "trend": "up",
+        "color": "purple"
+      }
+    ],
+    "warehouse": [
+      {
+        "label": "在库 SKU",
+        "value": "4,520",
+        "unit": "个",
+        "hint": "库存充足",
+        "trend": "flat",
+        "color": "blue"
+      },
+      {
+        "label": "库存总金额",
+        "value": "6,380",
+        "unit": "万",
+        "hint": "环比 +2.4%",
+        "trend": "up",
+        "color": "gray"
+      },
+      {
+        "label": "缺货预警",
+        "value": "96",
+        "unit": "个",
+        "hint": "需及时补货",
+        "trend": "down",
+        "color": "orange"
+      },
+      {
+        "label": "今日出库",
+        "value": "8,120",
+        "unit": "件",
+        "hint": "较昨日 +6%",
+        "trend": "up",
+        "color": "green"
+      }
+    ],
+    "anchor": [
+      {
+        "label": "在播主播",
+        "value": "24",
+        "unit": "位",
+        "hint": "预计上播 38 场",
+        "trend": "flat",
+        "color": "blue"
+      },
+      {
+        "label": "本周直播GMV",
+        "value": "860",
+        "unit": "万",
+        "hint": "环比 +18%",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "场均观看",
+        "value": "4.2",
+        "unit": "万",
+        "hint": "环比 +0.8 万",
+        "trend": "up",
+        "color": "purple"
+      },
+      {
+        "label": "转化率",
+        "value": "5.6",
+        "unit": "%",
+        "hint": "高于均值",
+        "trend": "up",
+        "color": "orange"
+      }
+    ],
+    "finance": [
+      {
+        "label": "本月营收",
+        "value": "3,420",
+        "unit": "万",
+        "hint": "目标达成率 86%",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "待回款",
+        "value": "680",
+        "unit": "万",
+        "hint": "账期 42 天",
+        "trend": "down",
+        "color": "orange"
+      },
+      {
+        "label": "费用支出",
+        "value": "826",
+        "unit": "万",
+        "hint": "较上月 +3%",
+        "trend": "flat",
+        "color": "gray"
+      },
+      {
+        "label": "利润率",
+        "value": "18.6",
+        "unit": "%",
+        "hint": "环比 +1.2%",
+        "trend": "up",
+        "color": "green"
+      }
+    ],
+    "hr": [
+      {
+        "label": "在职员工",
+        "value": "186",
+        "unit": "人",
+        "hint": "本月净增 6 人",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "招聘中职位",
+        "value": "23",
+        "unit": "个",
+        "hint": "待入职 8 人",
+        "trend": "flat",
+        "color": "purple"
+      },
+      {
+        "label": "本月考勤异常",
+        "value": "12",
+        "unit": "条",
+        "hint": "较上月 -5",
+        "trend": "down",
+        "color": "green"
+      },
+      {
+        "label": "部门数",
+        "value": "14",
+        "unit": "个",
+        "hint": "全模块覆盖",
+        "trend": "flat",
+        "color": "gray"
+      }
+    ],
+    "points": [
+      {
+        "label": "累计发放积分",
+        "value": "3.2",
+        "unit": "亿",
+        "hint": "本月 +2,400万",
+        "trend": "up",
+        "color": "blue"
+      },
+      {
+        "label": "本月消耗积分",
+        "value": "1.1",
+        "unit": "亿",
+        "hint": "消耗率 78%",
+        "trend": "up",
+        "color": "purple"
+      },
+      {
+        "label": "活跃积分用户",
+        "value": "42,860",
+        "unit": "人",
+        "hint": "较上月 +8%",
+        "trend": "up",
+        "color": "green"
+      },
+      {
+        "label": "积分兑换订单",
+        "value": "1,860",
+        "unit": "单",
+        "hint": "环比 +15%",
+        "trend": "up",
+        "color": "orange"
+      }
+    ]
+  },
+  "tabs": {
+    "home": [
+      {
+        "key": "orders",
+        "label": "今日订单"
+      },
+      {
+        "key": "refunds",
+        "label": "今日退款"
+      }
+    ],
+    "insight": [
+      {
+        "key": "sales",
+        "label": "销售明细"
+      }
+    ],
+    "support": [
+      {
+        "key": "tickets",
+        "label": "客服工单"
+      }
+    ],
+    "operation": [
+      {
+        "key": "campaigns",
+        "label": "活动列表"
+      }
+    ],
+    "warehouse": [
+      {
+        "key": "stock",
+        "label": "库存明细"
+      }
+    ],
+    "anchor": [
+      {
+        "key": "schedule",
+        "label": "主播排期"
+      }
+    ],
+    "finance": [
+      {
+        "key": "account",
+        "label": "销售对账"
+      }
+    ],
+    "hr": [
+      {
+        "key": "roster",
+        "label": "人员花名册"
+      }
+    ],
+    "points": [
+      {
+        "key": "rank",
+        "label": "积分排行榜"
+      },
+      {
+        "key": "log",
+        "label": "积分明细"
+      }
+    ]
+  },
+  "cols": {
+    "home|orders": [
+      {
+        "f": "id",
+        "l": "订单号",
+        "t": "text",
+        "w": 140
+      },
+      {
+        "f": "created_at",
+        "l": "下单时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "customer",
+        "l": "客户",
+        "t": "user",
+        "w": 140
+      },
+      {
+        "f": "platform",
+        "l": "平台",
+        "t": "platform",
+        "w": 120
+      },
+      {
+        "f": "amount",
+        "l": "金额",
+        "t": "amount",
+        "w": 110
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "home|refunds": [
+      {
+        "f": "id",
+        "l": "退款单号",
+        "t": "text",
+        "w": 140
+      },
+      {
+        "f": "created_at",
+        "l": "申请时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "customer",
+        "l": "客户",
+        "t": "user",
+        "w": 140
+      },
+      {
+        "f": "platform",
+        "l": "平台",
+        "t": "platform",
+        "w": 120
+      },
+      {
+        "f": "amount",
+        "l": "退款金额",
+        "t": "amount",
+        "w": 110
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "insight|sales": [
+      {
+        "f": "date",
+        "l": "日期",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "platform",
+        "l": "平台",
+        "t": "platform",
+        "w": 120
+      },
+      {
+        "f": "gmv",
+        "l": "销售额",
+        "t": "amount",
+        "w": 120
+      },
+      {
+        "f": "orders",
+        "l": "订单数",
+        "t": "number",
+        "w": 100
+      },
+      {
+        "f": "uv",
+        "l": "访客数",
+        "t": "number",
+        "w": 100
+      },
+      {
+        "f": "conversion",
+        "l": "转化率",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "support|tickets": [
+      {
+        "f": "id",
+        "l": "工单号",
+        "t": "text",
+        "w": 120
+      },
+      {
+        "f": "topic",
+        "l": "问题类型",
+        "t": "text",
+        "w": 160
+      },
+      {
+        "f": "customer",
+        "l": "客户",
+        "t": "user",
+        "w": 120
+      },
+      {
+        "f": "agent",
+        "l": "客服",
+        "t": "user",
+        "w": 120
+      },
+      {
+        "f": "urgency",
+        "l": "紧急度",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 110
+      },
+      {
+        "f": "created_at",
+        "l": "提交时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "operation|campaigns": [
+      {
+        "f": "name",
+        "l": "活动名称",
+        "t": "text",
+        "w": 220
+      },
+      {
+        "f": "type",
+        "l": "活动类型",
+        "t": "tag",
+        "w": 120
+      },
+      {
+        "f": "budget",
+        "l": "预算",
+        "t": "amount",
+        "w": 110
+      },
+      {
+        "f": "gmv",
+        "l": "带动GMV",
+        "t": "amount",
+        "w": 110
+      },
+      {
+        "f": "start",
+        "l": "开始时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "end",
+        "l": "结束时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "warehouse|stock": [
+      {
+        "f": "sku",
+        "l": "SKU编码",
+        "t": "text",
+        "w": 130
+      },
+      {
+        "f": "name",
+        "l": "商品",
+        "t": "text",
+        "w": 200
+      },
+      {
+        "f": "warehouse",
+        "l": "仓库",
+        "t": "text",
+        "w": 120
+      },
+      {
+        "f": "available",
+        "l": "可用库存",
+        "t": "number",
+        "w": 110
+      },
+      {
+        "f": "locked",
+        "l": "锁定",
+        "t": "number",
+        "w": 90
+      },
+      {
+        "f": "onway",
+        "l": "在途",
+        "t": "number",
+        "w": 90
+      },
+      {
+        "f": "stock_status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "image",
+        "l": "图",
+        "t": "image",
+        "w": 70
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "anchor|schedule": [
+      {
+        "f": "anchor",
+        "l": "主播",
+        "t": "user",
+        "w": 130
+      },
+      {
+        "f": "date",
+        "l": "直播日期",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "time_slot",
+        "l": "时间段",
+        "t": "text",
+        "w": 120
+      },
+      {
+        "f": "platform",
+        "l": "平台",
+        "t": "platform",
+        "w": 120
+      },
+      {
+        "f": "goods",
+        "l": "带货商品数",
+        "t": "number",
+        "w": 110
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "finance|account": [
+      {
+        "f": "month",
+        "l": "账期",
+        "t": "text",
+        "w": 120
+      },
+      {
+        "f": "platform",
+        "l": "平台",
+        "t": "platform",
+        "w": 120
+      },
+      {
+        "f": "revenue",
+        "l": "销售额",
+        "t": "amount",
+        "w": 130
+      },
+      {
+        "f": "fee",
+        "l": "平台费用",
+        "t": "amount",
+        "w": 120
+      },
+      {
+        "f": "settled",
+        "l": "已结算",
+        "t": "amount",
+        "w": 120
+      },
+      {
+        "f": "status",
+        "l": "状态",
+        "t": "tag",
+        "w": 100
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "hr|roster": [
+      {
+        "f": "name",
+        "l": "姓名",
+        "t": "user",
+        "w": 120
+      },
+      {
+        "f": "dept",
+        "l": "部门",
+        "t": "tag",
+        "w": 120
+      },
+      {
+        "f": "position",
+        "l": "职位",
+        "t": "text",
+        "w": 150
+      },
+      {
+        "f": "join_date",
+        "l": "入职日期",
+        "t": "date",
+        "w": 150
+      },
+      {
+        "f": "status",
+        "l": "在职状态",
+        "t": "tag",
+        "w": 110
+      },
+      {
+        "f": "phone",
+        "l": "联系方式",
+        "t": "text",
+        "w": 140
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "points|rank": [
+      {
+        "f": "rank",
+        "l": "排名",
+        "t": "number",
+        "w": 70
+      },
+      {
+        "f": "user",
+        "l": "用户",
+        "t": "user",
+        "w": 140
+      },
+      {
+        "f": "level",
+        "l": "会员等级",
+        "t": "tag",
+        "w": 110
+      },
+      {
+        "f": "points",
+        "l": "总积分",
+        "t": "number",
+        "w": 120
+      },
+      {
+        "f": "month_points",
+        "l": "本月获得",
+        "t": "number",
+        "w": 120
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ],
+    "points|log": [
+      {
+        "f": "id",
+        "l": "流水号",
+        "t": "text",
+        "w": 130
+      },
+      {
+        "f": "user",
+        "l": "用户",
+        "t": "user",
+        "w": 140
+      },
+      {
+        "f": "action",
+        "l": "动作",
+        "t": "text",
+        "w": 160
+      },
+      {
+        "f": "delta",
+        "l": "积分变动",
+        "t": "text",
+        "w": 110
+      },
+      {
+        "f": "time",
+        "l": "时间",
+        "t": "date",
+        "w": 160
+      },
+      {
+        "f": "ck",
+        "l": "",
+        "t": "checkbox",
+        "w": 44
+      }
+    ]
+  },
+  "rows": {
+    "home|orders": [
+      {
+        "id": "DH20261000",
+        "created_at": "2026-08-19 10:20",
+        "customer": "测试用户01",
+        "platform": "抖音",
+        "amount": "1289.00",
+        "status": "已完成"
+      },
+      {
+        "id": "DH20261001",
+        "created_at": "2026-08-19 10:05",
+        "customer": "测试用户02",
+        "platform": "淘宝",
+        "amount": "356.80",
+        "status": "待发货"
+      },
+      {
+        "id": "DH20261002",
+        "created_at": "2026-08-19 09:48",
+        "customer": "测试用户03",
+        "platform": "京东",
+        "amount": "2199.00",
+        "status": "已完成"
+      },
+      {
+        "id": "DH20261003",
+        "created_at": "2026-08-19 09:30",
+        "customer": "测试用户04",
+        "platform": "拼多多",
+        "amount": "98.50",
+        "status": "退款中"
+      },
+      {
+        "id": "DH20261004",
+        "created_at": "2026-08-19 09:12",
+        "customer": "测试用户05",
+        "platform": "快手",
+        "amount": "765.20",
+        "status": "已发货"
+      },
+      {
+        "id": "DH20261005",
+        "created_at": "2026-08-19 08:55",
+        "customer": "测试用户06",
+        "platform": "抖音",
+        "amount": "420.00",
+        "status": "已完成"
+      },
+      {
+        "id": "DH20261006",
+        "created_at": "2026-08-19 08:33",
+        "customer": "测试用户07",
+        "platform": "淘宝",
+        "amount": "1588.00",
+        "status": "待发货"
+      },
+      {
+        "id": "DH20261007",
+        "created_at": "2026-08-19 08:10",
+        "customer": "测试用户08",
+        "platform": "京东",
+        "amount": "632.40",
+        "status": "已发货"
+      }
+    ],
+    "insight|sales": [
+      {
+        "date": "2026-08-19",
+        "platform": "抖音",
+        "gmv": "286.5",
+        "orders": 3842,
+        "uv": 48000,
+        "conversion": "8.0%"
+      },
+      {
+        "date": "2026-08-19",
+        "platform": "淘宝",
+        "gmv": "156.0",
+        "orders": 2210,
+        "uv": 36000,
+        "conversion": "6.1%"
+      },
+      {
+        "date": "2026-08-19",
+        "platform": "京东",
+        "gmv": "98.2",
+        "orders": 1488,
+        "uv": 21000,
+        "conversion": "7.1%"
+      },
+      {
+        "date": "2026-08-19",
+        "platform": "拼多多",
+        "gmv": "72.4",
+        "orders": 2050,
+        "uv": 32000,
+        "conversion": "6.4%"
+      },
+      {
+        "date": "2026-08-19",
+        "platform": "快手",
+        "gmv": "54.8",
+        "orders": 998,
+        "uv": 15000,
+        "conversion": "6.7%"
+      }
+    ],
+    "support|tickets": [
+      {
+        "id": "TK80000",
+        "topic": "物流查询",
+        "customer": "测试用户01",
+        "agent": "测试用户06",
+        "urgency": "中",
+        "status": "处理中",
+        "created_at": "2026-08-19 09:40"
+      },
+      {
+        "id": "TK80005",
+        "topic": "退换货",
+        "customer": "测试用户02",
+        "agent": "测试用户07",
+        "urgency": "高",
+        "status": "待处理",
+        "created_at": "2026-08-19 09:20"
+      },
+      {
+        "id": "TK80010",
+        "topic": "价格咨询",
+        "customer": "测试用户03",
+        "agent": "测试用户08",
+        "urgency": "低",
+        "status": "已解决",
+        "created_at": "2026-08-19 08:50"
+      },
+      {
+        "id": "TK80015",
+        "topic": "售后投诉",
+        "customer": "测试用户04",
+        "agent": "测试用户06",
+        "urgency": "高",
+        "status": "处理中",
+        "created_at": "2026-08-19 08:30"
+      }
+    ],
+    "operation|campaigns": [
+      {
+        "name": "2026 抖音大促 · 1",
+        "type": "大促",
+        "budget": "120.0",
+        "gmv": "520.0",
+        "start": "2026-08-18 00:00",
+        "end": "2026-08-20 23:59",
+        "status": "进行中"
+      },
+      {
+        "name": "2026 秒杀专场 · 2",
+        "type": "秒杀",
+        "budget": "45.0",
+        "gmv": "180.0",
+        "start": "2026-08-19 10:00",
+        "end": "2026-08-19 22:00",
+        "status": "进行中"
+      },
+      {
+        "name": "2026 会员日 · 3",
+        "type": "会员日",
+        "budget": "60.0",
+        "gmv": "0",
+        "start": "2026-08-25 00:00",
+        "end": "2026-08-26 23:59",
+        "status": "筹备中"
+      }
+    ],
+    "warehouse|stock": [
+      {
+        "sku": "SKU990001",
+        "name": "冬季针织开衫",
+        "warehouse": "华东仓",
+        "available": 860,
+        "locked": 120,
+        "onway": 300,
+        "stock_status": "充足",
+        "image": "p0"
+      },
+      {
+        "sku": "SKU990027",
+        "name": "新款休闲卫衣",
+        "warehouse": "华南仓",
+        "available": 96,
+        "locked": 30,
+        "onway": 500,
+        "stock_status": "缺货预警",
+        "image": "p1"
+      },
+      {
+        "sku": "SKU990040",
+        "name": "春秋通勤衬衫",
+        "warehouse": "华北仓",
+        "available": 12,
+        "locked": 0,
+        "onway": 200,
+        "stock_status": "缺货预警",
+        "image": "p2"
+      },
+      {
+        "sku": "SKU990053",
+        "name": "经典羊毛衫",
+        "warehouse": "西南仓",
+        "available": 7200,
+        "locked": 400,
+        "onway": 0,
+        "stock_status": "超储",
+        "image": "p3"
+      }
+    ],
+    "anchor|schedule": [
+      {
+        "anchor": "测试用户09",
+        "date": "2026-08-19",
+        "time_slot": "18:00-21:00",
+        "platform": "抖音",
+        "goods": 32,
+        "status": "直播中"
+      },
+      {
+        "anchor": "测试用户10",
+        "date": "2026-08-19",
+        "time_slot": "20:00-23:00",
+        "platform": "快手",
+        "goods": 28,
+        "status": "已排期"
+      },
+      {
+        "anchor": "测试用户11",
+        "date": "2026-08-20",
+        "time_slot": "10:00-12:00",
+        "platform": "抖音",
+        "goods": 40,
+        "status": "已排期"
+      },
+      {
+        "anchor": "测试用户12",
+        "date": "2026-08-18",
+        "time_slot": "14:00-16:00",
+        "platform": "淘宝",
+        "goods": 25,
+        "status": "已完成"
+      }
+    ],
+    "finance|account": [
+      {
+        "month": "2026-07",
+        "platform": "抖音",
+        "revenue": "1200.0",
+        "fee": "144.0",
+        "settled": "1056.0",
+        "status": "已结算"
+      },
+      {
+        "month": "2026-07",
+        "platform": "淘宝",
+        "revenue": "680.0",
+        "fee": "81.6",
+        "settled": "598.4",
+        "status": "已结算"
+      },
+      {
+        "month": "2026-07",
+        "platform": "京东",
+        "revenue": "520.0",
+        "fee": "62.4",
+        "settled": "457.6",
+        "status": "待结算"
+      },
+      {
+        "month": "2026-07",
+        "platform": "拼多多",
+        "revenue": "430.0",
+        "fee": "51.6",
+        "settled": "378.4",
+        "status": "对账中"
+      }
+    ],
+    "hr|roster": [
+      {
+        "name": "测试用户03",
+        "dept": "仓库部",
+        "position": "经理",
+        "join_date": "2021-11-20",
+        "status": "在职",
+        "phone": "TEST-CONTACT"
+      },
+      {
+        "name": "测试用户04",
+        "dept": "人力资源",
+        "position": "HR专员",
+        "join_date": "2024-01-08",
+        "status": "试用期",
+        "phone": "TEST-CONTACT"
+      }
+    ],
+    "points|rank": [
+      {
+        "rank": 1,
+        "user": "测试用户01",
+        "level": "钻石",
+        "points": 98600,
+        "month_points": 6200
+      },
+      {
+        "rank": 2,
+        "user": "测试用户02",
+        "level": "铂金",
+        "points": 84200,
+        "month_points": 5100
+      },
+      {
+        "rank": 3,
+        "user": "测试用户03",
+        "level": "黄金",
+        "points": 73100,
+        "month_points": 4300
+      },
+      {
+        "rank": 4,
+        "user": "测试用户04",
+        "level": "白银",
+        "points": 62900,
+        "month_points": 3800
+      },
+      {
+        "rank": 5,
+        "user": "测试用户05",
+        "level": "普通会员",
+        "points": 52800,
+        "month_points": 2900
+      }
+    ],
+    "points|log": [
+      {
+        "id": "PT100000",
+        "user": "测试用户01",
+        "action": "购物获得",
+        "delta": "+860",
+        "time": "2026-08-19 10:20"
+      },
+      {
+        "id": "PT100011",
+        "user": "测试用户02",
+        "action": "签到奖励",
+        "delta": "+10",
+        "time": "2026-08-19 09:30"
+      },
+      {
+        "id": "PT100022",
+        "user": "测试用户03",
+        "action": "兑换扣减",
+        "delta": "-500",
+        "time": "2026-08-19 09:05"
+      },
+      {
+        "id": "PT100033",
+        "user": "测试用户04",
+        "action": "活动奖励",
+        "delta": "+220",
+        "time": "2026-08-19 08:40"
+      }
+    ]
+  }
+}

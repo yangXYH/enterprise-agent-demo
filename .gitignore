@@ -1,0 +1,142 @@
+# =============================================
+# Python 虚拟环境
+# =============================================
+venv/
+env/
+.venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg-info/
+dist/
+build/
+
+# =============================================
+# 前端依赖与构建产物
+# =============================================
+frontend/node_modules/
+frontend/dist/
+frontend/dist-backup-*/
+frontend/dist-old-*/
+frontend/.vite/
+frontend/vite.out
+frontend/vite.err
+frontend/vite.config.ts.timestamp-*
+frontend/tsconfig.tsbuildinfo
+frontend/.DS_Store
+
+# =============================================
+# Python 运行时产物
+# =============================================
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.so
+*.egg
+*.egg-link
+*.whl
+*.log
+uvicorn.err
+uvicorn.out
+*.db.journal
+
+# =============================================
+# 本地数据库
+# =============================================
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+# =============================================
+# 环境变量与敏感配置
+# =============================================
+.env
+.env.*
+!.env.example
+!.env.test.example
+!.env.production.example
+.env.local
+.env.production
+*.pem
+*.key
+credentials.json
+secrets.json
+*.secret
+*.private
+
+# =============================================
+# 本地上传与临时文件
+# =============================================
+uploads/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =============================================
+# 测试脚本（不需要提交）
+# =============================================
+test_*.py
+test_*.ps1
+test_*.sh
+body.json
+.verify/
+_patch_*.py
+
+# =============================================
+# generated_assets / psd_layers（设计源文件）
+# =============================================
+generated_assets/
+psd_layers/
+
+# =============================================
+# 通用 IDE / OS
+# =============================================
+.vscode/
+.idea/
+*.sublime-*
+*.suo
+*.user
+*.sln.docstates
+
+# =============================================
+# MCP 配置（避免暴露本地工具路径）
+# =============================================
+.mcps/
+.cursor/mcps/
+
+# =============================================
+# 其他
+# =============================================
+*.bak
+*.tmp
+*.cache
+
+# Demo repository: private data and local output
+node_modules/
+outputs/
+coze/coze-config.json
+/*.xlsx
+/*.xls
+/考勤/
+/hr_roster_export.sql
+/data/*
+!/data/shop_report.json
+!/data/README.md
+/frontend/public/data/*.xlsx
+/frontend/public/data/*.xls
+/database/_backup*.sql
+*.bak-*
+*.err
+*.out
+*.tmpdir/
+**/.verify/
