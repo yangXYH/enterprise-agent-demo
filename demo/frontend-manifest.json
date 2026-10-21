@@ -8,7 +8,7 @@
     "frontend/public/ecommerce-dashboard.html": "0357b7254bfa347afd1c3233826a9a3ddf3a916d9761bf026f8a5a8c09333bfe",
     "frontend/public/favicon.svg": "68a9ae244d49b9847cc878de41446d3e2ec993a90cbcd21e127aeed0c6d5bf45",
     "frontend/public/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
-    "frontend/src/App.vue": "f810d932d02583d18bdef2e82b7bc9a8d20f3a18c9fcfbdfde548d1289e602d5",
+    "frontend/src/App.vue": "8968ea81a9ba8941d7073bbc923bf888b9efe7ba3686a05041b49c3419d550ea",
     "frontend/src/assets/hero.png": "881ffbcaafc212e49addad08846a5b82761355fa20624253af3477ba33262c5c",
     "frontend/src/assets/vite.svg": "5be21acd42eb7b896e517f4e0f0f11eb5c5d9e54fbbcebe9453f033008fcca6f",
     "frontend/src/assets/vue.svg": "3ceff156dbbddaceb40eafe2559140364de06366dac860b4b6a7871001cfd214",
@@ -61,13 +61,13 @@
   },
   "bundle": {
     "demo/frontend/ai-project-daily-board.html": "aa06b0988dee175d20139a67cd0562cb28ee916520065545d0241ea549735d87",
-    "demo/frontend/assets/main-BT9TBkYf.css": "16ea9f916b78ad48a58286f6305efd0cbffc45fa11e62415bed142afef42ca6a",
-    "demo/frontend/assets/main-kB8KG2gK.js": "d169953954b14e3c5bc473a3a694e487a450ffde706a79b17b2c961c81705d59",
+    "demo/frontend/assets/main-CuF8Dfvb.js": "74929ceb2909cea7e9ef636df43e04c4b48605c3d2b3ab5172627ffcc72661cc",
+    "demo/frontend/assets/main-CZWR8e5B.css": "444af082c45bb772bb46d281da3cf45cc96d01e76f1e7d379e9a96368ad6fa72",
     "demo/frontend/demo-logo.svg": "68a9ae244d49b9847cc878de41446d3e2ec993a90cbcd21e127aeed0c6d5bf45",
     "demo/frontend/ecommerce-dashboard.html": "0357b7254bfa347afd1c3233826a9a3ddf3a916d9761bf026f8a5a8c09333bfe",
     "demo/frontend/favicon.svg": "68a9ae244d49b9847cc878de41446d3e2ec993a90cbcd21e127aeed0c6d5bf45",
     "demo/frontend/icons.svg": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
-    "demo/frontend/index.html": "1a9936e859ad32188e80bbe7c915b0cd426c1d4eee7b51e64ed9d6095087cd97",
+    "demo/frontend/index.html": "c20a9b72ad348fafe753d2f0958b21c60ab985fa504bdffcbec62c777131a324",
     "demo/frontend/login.html": "61a8ea6044e2b31ad1430ef9cd2bfa6cb70f6b639d4e311032240c3e2962710a"
   }
 }

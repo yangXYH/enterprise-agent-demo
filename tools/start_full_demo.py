@@ -25,7 +25,7 @@ def main():
     port = int(os.getenv("DEMO_PORT", "4173"))
     host = os.getenv("DEMO_HOST", "127.0.0.1")
     print(f"Original Vue + FastAPI application: http://127.0.0.1:{port}")
-    print("Login: demo_admin / Demo@2026 (synthetic demo account)")
+    print("No login required: opens as the synthetic demo administrator.")
     if "--open-browser" in sys.argv:
         threading.Timer(2, lambda: webbrowser.open(f"http://127.0.0.1:{port}")).start()
     uvicorn.run("main:app", host=host, port=port, log_level="info")

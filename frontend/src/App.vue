@@ -67,6 +67,7 @@ const authJobTitle  = ref('')
 const authDepartment = ref('')
 const authDeptCode  = ref('')
 const authChecked   = ref(false)
+const demoMode = ref(false)
 const isDarkTheme = ref(document.documentElement.classList.contains('dark-theme'))
 
 const toggleTheme = () => {
@@ -82,7 +83,35 @@ const redirectToLogin = () => {
 
 const hasAuthState = () => Boolean(authRealName.value && authRole.value)
 
-onMounted(() => {
+onMounted(async () => {
+  try {
+    const response = await fetch('/api/auth/session', { credentials: 'same-origin', cache: 'no-store' })
+    if (response.ok) {
+      const session = await response.json()
+      if (session.authenticated && session.demo_mode) {
+        demoMode.value = true
+        authRealName.value = session.real_name || ''
+        authRole.value = session.role || ''
+        authUsername.value = session.username || ''
+        authJobTitle.value = session.job_title || ''
+        authDepartment.value = session.department || ''
+        authDeptCode.value = ''
+        // Existing business components and embedded pages read these identity keys.
+        for (const [key, value] of [
+          [AUTH_REAL_NAME_KEY, authRealName.value], [AUTH_ROLE_KEY, authRole.value],
+          [AUTH_USERNAME_KEY, authUsername.value], [AUTH_JOB_TITLE_KEY, authJobTitle.value],
+          [AUTH_DEPARTMENT_KEY, authDepartment.value], [AUTH_DEPT_CODE_KEY, ''],
+          [AUTH_LOGIN_TIME_KEY, String(Date.now())],
+        ]) {
+          try { localStorage.setItem(key!, value!) } catch {}
+        }
+        hydrateSidebarState()
+        authChecked.value = true
+        void loadPagePermission()
+        return
+      }
+    }
+  } catch {}
   authRealName.value   = localStorage.getItem(AUTH_REAL_NAME_KEY)  || ''
   authRole.value       = localStorage.getItem(AUTH_ROLE_KEY)        || ''
   authUsername.value   = localStorage.getItem(AUTH_USERNAME_KEY)    || ''
@@ -880,7 +909,8 @@ const doLogout = async () => {
               <span class="welcome-sep">)</span>
             </span>
             <span class="role-chip">{{ jobTitleLabel }}</span>
-            <button class="logout-btn" type="button" title="退出登录" @click="doLogout">
+            <span v-if="demoMode" class="role-chip">免登录演示</span>
+            <button v-else class="logout-btn" type="button" title="退出登录" @click="doLogout">
               <el-icon><SwitchButton /></el-icon>
               <span>退出登录</span>
             </button>

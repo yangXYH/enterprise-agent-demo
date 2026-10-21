@@ -145,7 +145,7 @@ def seed():
     populate(engine, TODAY, insert_rows, count)
     with engine.begin() as connection:
         connection.execute(text("INSERT INTO demo_runtime_meta VALUES ('version',:version) ON DUPLICATE KEY UPDATE meta_value=VALUES(meta_value)"), {"version": VERSION})
-    print("Full application demo database ready. Demo login: demo_admin / Demo@2026")
+    print("Full application demo database ready. No login required.")
     return engine
 
 

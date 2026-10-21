@@ -18,8 +18,13 @@ def main():
     client = httpx.Client(base_url=args.url, timeout=60)
     marker = client.get("/api/demo/status").json()
     assert marker.get("mode") == "full-application" and marker.get("synthetic_data") and marker.get("dataset_owned"), "Only a marked synthetic demo may be tested."
-    response = client.post("/api/auth/login", json={"username": "demo_admin", "password": "Demo@2026"})
-    response.raise_for_status()
+    session = client.get("/api/auth/session")
+    session.raise_for_status()
+    identity = session.json()
+    assert identity["authenticated"] and identity["demo_mode"] and identity["username"] == "demo_admin"
+    assert not client.cookies, "Public demo must work without a login cookie."
+    login_page = client.get("/login.html", follow_redirects=False)
+    assert login_page.status_code == 303 and login_page.headers["location"] == "/"
     api = client.get("/openapi.json").json()
     today = date.today()
     params = {"start": (today - timedelta(days=29)).isoformat(), "end": today.isoformat(), "sku_code": "TEST-SKU-0001", "name": "测试员工01", "month": today.strftime("%Y-%m")}

@@ -25,7 +25,7 @@ from urllib.parse import parse_qs, quote
 from fastapi import BackgroundTasks, Body, FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response, StreamingResponse
+from fastapi.responses import JSONResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -51,6 +51,7 @@ from utils import (
 )
 from pypdf import PdfReader
 from sqlalchemy import Table, Column, Integer, String, Text, DateTime, MetaData, insert, text
+from sqlalchemy.exc import SQLAlchemyError
 from docx import Document
 from fastapi.concurrency import run_in_threadpool
 
@@ -1307,11 +1308,36 @@ def _decode_auth_session(value: str | None) -> dict[str, Any] | None:
         return None
 
 
+def _get_demo_guest_user(engine: Any | None = None) -> dict[str, Any] | None:
+    """Use the real demo administrator only in an owned synthetic demo database."""
+    if os.getenv("APP_ENV") != "demo":
+        return None
+    engine = engine if engine is not None else _get_mysql_engine()
+    if not re.fullmatch(r"enterprise_agent_demo(?:_[a-z0-9]+)?", str(engine.url.database or "")):
+        return None
+    try:
+        with engine.connect() as conn:
+            owner = conn.execute(text("SELECT meta_value FROM demo_runtime_meta WHERE meta_key='owner'")).scalar()
+            if owner != "enterprise-agent-demo-synthetic-v2":
+                return None
+            user = conn.execute(
+                text("SELECT id, username, real_name, role, department, job_title FROM sys_user "
+                     "WHERE username=:username AND role='admin' LIMIT 1"),
+                {"username": "demo_admin"},
+            ).mappings().fetchone()
+    except SQLAlchemyError:
+        return None
+    return {**dict(user), "_demo_guest": True} if user else None
+
+
 def _get_authenticated_user(
     request: Request,
     *,
     engine: Any | None = None,
 ) -> dict[str, Any]:
+    guest = _get_demo_guest_user(engine)
+    if guest is not None:
+        return guest
     payload = _decode_auth_session(request.cookies.get(AUTH_SESSION_COOKIE))
     if not payload:
         raise HTTPException(status_code=401, detail="登录状态已失效，请重新登录")
@@ -1369,7 +1395,11 @@ def get_auth_session(request: Request):
         return {"authenticated": False, "can_manage_huadong_sync": False}
     return {
         "authenticated": True,
+        "demo_mode": bool(user.get("_demo_guest")),
+        "username": user.get("username") or "",
         "real_name": user.get("real_name") or "",
+        "department": user.get("department") or "",
+        "job_title": user.get("job_title") or "",
         "role": user.get("role") or "",
         "is_admin": _is_admin_user(user),
         "can_manage_huadong_sync": str(user.get("real_name") or "").strip() == "杨精灿",
@@ -5969,6 +5999,8 @@ if _FRONTEND_DIST.exists():
         # Skip /api/* — those should be handled by API routes registered earlier.
         if full_path.startswith("api/") or full_path == "api":
             return JSONResponse({"detail": "Not Found"}, status_code=404)
+        if full_path == "login.html" and _get_demo_guest_user() is not None:
+            return RedirectResponse("/", status_code=303)
         file_path = _FRONTEND_DIST / full_path
         if file_path.is_file():
             return FileResponse(str(file_path))
