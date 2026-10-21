@@ -5992,6 +5992,14 @@ def demo_runtime_status():
 
 
 _FRONTEND_DIST = Path(os.getenv("FRONTEND_DIST", str(Path(__file__).parent / "frontend" / "dist")))
+
+
+def _resolve_frontend_file(full_path: str) -> Path | None:
+    root = _FRONTEND_DIST.resolve()
+    candidate = (root / full_path).resolve()
+    return candidate if candidate.is_relative_to(root) else None
+
+
 if _FRONTEND_DIST.exists():
     app.mount("/static", StaticFiles(directory=str(_FRONTEND_DIST / "assets"), check_dir=False), name="frontend-assets")
     @app.get("/{full_path:path}", include_in_schema=False)
@@ -6001,7 +6009,9 @@ if _FRONTEND_DIST.exists():
             return JSONResponse({"detail": "Not Found"}, status_code=404)
         if full_path == "login.html" and _get_demo_guest_user() is not None:
             return RedirectResponse("/", status_code=303)
-        file_path = _FRONTEND_DIST / full_path
+        file_path = _resolve_frontend_file(full_path)
+        if file_path is None:
+            return JSONResponse({"detail": "Not Found"}, status_code=404)
         if file_path.is_file():
             return FileResponse(str(file_path))
         return FileResponse(str(_FRONTEND_DIST / "index.html"))

@@ -1,0 +1,66 @@
+name: enterprise-agent-demo-online
+services:
+  mysql:
+    image: mysql:8.0.45
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: enterprise_agent_demo_online
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: ${DEMO_DB_PASSWORD:?Run python3 tools/prepare_online.py first}
+      MYSQL_ROOT_PASSWORD: ${DEMO_ROOT_PASSWORD:?Run python3 tools/prepare_online.py first}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - online_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -udemo -p$$MYSQL_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: demo
+      DEMO_HOST: 0.0.0.0
+      DEMO_PORT: 8000
+      DEMO_DB_HOST: mysql
+      DEMO_DB_NAME: enterprise_agent_demo_online
+      DEMO_DB_USER: demo
+      DEMO_DB_PASSWORD: ${DEMO_DB_PASSWORD:?Run python3 tools/prepare_online.py first}
+      JUSHUITAN_SYNC_ENABLED: "false"
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+    volumes:
+      - online_uploads:/app/uploads
+      - online_data:/app/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json,urllib.request; assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/api/demo/status',timeout=5)).get('dataset_owned')"]
+      start_period: 600s
+      interval: 15s
+      timeout: 8s
+      retries: 10
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DEMO_PUBLIC_HOST: ${DEMO_PUBLIC_HOST:-:80}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - online_caddy_data:/data
+      - online_caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+volumes:
+  online_mysql:
+  online_uploads:
+  online_data:
+  online_caddy_data:
+  online_caddy_config:

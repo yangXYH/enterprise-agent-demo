@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '24'
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.auth_api_test tests.demo_guest_auth_test tests.demo_data_test
+      - run: python -m unittest tests.auth_api_test tests.demo_guest_auth_test tests.demo_data_test tests.online_deployment_test
       - run: python tools/check_public_demo.py
       - run: npm ci && npm run build
         working-directory: frontend

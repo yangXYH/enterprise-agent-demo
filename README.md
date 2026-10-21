@@ -4,6 +4,10 @@
 
 ![原版业务界面与测试数据](demo/preview.png)
 
+## 打包部署成在线演示
+
+下载[完整项目 ZIP](https://github.com/yangXYH/enterprise-agent-demo/archive/refs/heads/main.zip)，上传到可运行 Docker 的云服务器。执行初始化与部署命令后，即可通过服务器公网 IP 或自己的 HTTPS 域名免登录访问。详见[在线部署步骤](docs/ONLINE_DEPLOYMENT.md)。
+
 ## 克隆并启动完整应用
 
 安装 Docker Desktop（含 Docker Compose 2.24+），启动 Docker 后执行：
